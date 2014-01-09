@@ -24,30 +24,68 @@
                                        CGRectGetMidY(self.frame));
         
         [self addChild:myLabel];
-    }
-    return self;
-}
-
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    /* Called when a touch begins */
-    
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
         
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-        
-        sprite.position = location;
-        
-        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-        
-        [sprite runAction:[SKAction repeatActionForever:action]];
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+        sprite.size = CGSizeMake(100.0, 100.0);
+        sprite.position = CGPointMake(self.size.width / 2, self.size.height / 2);
         
         [self addChild:sprite];
     }
+    return self;
+}
+//
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    /* Called when a touch begins */
+//    
+//    for (UITouch *touch in touches) {
+//        CGPoint location = [touch locationInNode:self];
+//        
+//        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+//        
+//        sprite.position = location;
+//        
+//        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
+//        
+//        [sprite runAction:[SKAction repeatActionForever:action]];
+//        
+//        [self addChild:sprite];
+//    }
+//}
+//
+//-(void)update:(CFTimeInterval)currentTime {
+//    /* Called before each frame is rendered */
+//}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch* touch = [touches anyObject];
+    CGPoint positionInScene = [touch locationInNode:self];
+    
+    pathToDraw = CGPathCreateMutable();
+    CGPathMoveToPoint(pathToDraw, NULL, positionInScene.x, positionInScene.y);
+    
+    lineNode = [SKShapeNode node];
+    lineNode.path = pathToDraw;
+    lineNode.strokeColor = [SKColor redColor];
+    [self addChild:lineNode];
 }
 
--(void)update:(CFTimeInterval)currentTime {
-    /* Called before each frame is rendered */
+- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
+    
+    UITouch* touch = [touches anyObject];
+    CGPoint positionInScene = [touch locationInNode:self];
+    CGPathAddLineToPoint(pathToDraw, NULL, positionInScene.x, positionInScene.y);
+    lineNode.path = pathToDraw;
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    // delete the following line if you want the line to remain on screen.
+    
+    
+    SKAction *action = [SKAction followPath:pathToDraw asOffset:NO orientToPath:YES duration:3];
+    [sprite runAction:action completion:^(){
+        [lineNode removeFromParent];
+        CGPathRelease(pathToDraw);
+    }];
+}
 @end

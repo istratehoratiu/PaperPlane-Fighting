@@ -8,6 +8,10 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface PPMyScene : SKScene
+@interface PPMyScene : SKScene {
+    CGMutablePathRef pathToDraw;
+    SKShapeNode *lineNode;
+    SKSpriteNode *sprite;
+}
 
 @end
