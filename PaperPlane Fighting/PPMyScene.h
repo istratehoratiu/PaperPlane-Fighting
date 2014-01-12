@@ -12,6 +12,10 @@
     CGMutablePathRef pathToDraw;
     SKShapeNode *lineNode;
     SKSpriteNode *sprite;
+    UIButton *fireBulletsButton;
+    CGPoint  previousPoint1;
+    CGPoint  previousPoint2;
+    CGPoint  currentPoint;
 }
 
 @end

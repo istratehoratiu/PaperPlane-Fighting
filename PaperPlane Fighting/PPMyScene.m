@@ -16,20 +16,28 @@
         
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
         
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"Hello, World!";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
-        
-        [self addChild:myLabel];
+//        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+//        
+//        myLabel.text = @"Hello, World!";
+//        myLabel.fontSize = 30;
+//        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+//                                       CGRectGetMidY(self.frame));
+//        
+//        [self addChild:myLabel];
         
         sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
         sprite.size = CGSizeMake(100.0, 100.0);
         sprite.position = CGPointMake(self.size.width / 2, self.size.height / 2);
         
         [self addChild:sprite];
+        
+        fireBulletsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        fireBulletsButton.frame = CGRectMake(500.0, 500.0, 200.0, 100);
+        fireBulletsButton.backgroundColor = [UIColor redColor];
+        [fireBulletsButton setTitle:@"Fire!!!!" forState:UIControlStateNormal | UIControlStateHighlighted];
+        [fireBulletsButton addTarget:self action:@selector(fireButtonPreset:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.view addSubview:fireBulletsButton];
     }
     return self;
 }
@@ -52,9 +60,14 @@
 //    }
 //}
 //
-//-(void)update:(CFTimeInterval)currentTime {
-//    /* Called before each frame is rendered */
-//}
+
+- (void)fireButtonPreset:(id)sender {
+    NSLog(@">>>>>>>>>> FIRE <<<<<<<<");
+}
+
+-(void)update:(CFTimeInterval)currentTime {
+    
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -67,6 +80,7 @@
     lineNode = [SKShapeNode node];
     lineNode.path = pathToDraw;
     lineNode.strokeColor = [SKColor redColor];
+    lineNode.zPosition = -1;
     [self addChild:lineNode];
 }
 
@@ -80,9 +94,9 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     // delete the following line if you want the line to remain on screen.
-    
-    
     SKAction *action = [SKAction followPath:pathToDraw asOffset:NO orientToPath:YES duration:3];
+    
+    
     [sprite runAction:action completion:^(){
         [lineNode removeFromParent];
         CGPathRelease(pathToDraw);
