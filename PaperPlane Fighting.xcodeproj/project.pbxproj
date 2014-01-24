@@ -24,6 +24,10 @@
 		EB1BC0A7187F48970056D80D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1BC082187F48970056D80D /* UIKit.framework */; };
 		EB1BC0AF187F48970056D80D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB1BC0AD187F48970056D80D /* InfoPlist.strings */; };
 		EB1BC0B1187F48970056D80D /* PaperPlane_FightingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC0B0187F48970056D80D /* PaperPlane_FightingTests.m */; };
+		EB97D7851891BAB40039AC04 /* SKShapeNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */; };
+		EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */; };
+		EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */; };
+		EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78E1891D92F0039AC04 /* PPMath.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +64,14 @@
 		EB1BC0AC187F48970056D80D /* PaperPlane FightingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PaperPlane FightingTests-Info.plist"; sourceTree = "<group>"; };
 		EB1BC0AE187F48970056D80D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB1BC0B0187F48970056D80D /* PaperPlane_FightingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaperPlane_FightingTests.m; sourceTree = "<group>"; };
+		EB97D7831891BAB40039AC04 /* SKShapeNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKShapeNode+Additions.h"; sourceTree = "<group>"; };
+		EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKShapeNode+Additions.m"; sourceTree = "<group>"; };
+		EB97D7861891BE390039AC04 /* SKSpriteNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKSpriteNode+Additions.h"; sourceTree = "<group>"; };
+		EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKSpriteNode+Additions.m"; sourceTree = "<group>"; };
+		EB97D78A1891C91C0039AC04 /* PPSpriteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSpriteNode.h; sourceTree = "<group>"; };
+		EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSpriteNode.m; sourceTree = "<group>"; };
+		EB97D78D1891D92F0039AC04 /* PPMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMath.h; sourceTree = "<group>"; };
+		EB97D78E1891D92F0039AC04 /* PPMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMath.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +143,14 @@
 				EB1BC09B187F48970056D80D /* Spaceship.png */,
 				EB1BC09D187F48970056D80D /* Images.xcassets */,
 				EB1BC087187F48970056D80D /* Supporting Files */,
+				EB97D7831891BAB40039AC04 /* SKShapeNode+Additions.h */,
+				EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */,
+				EB97D7861891BE390039AC04 /* SKSpriteNode+Additions.h */,
+				EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */,
+				EB97D78A1891C91C0039AC04 /* PPSpriteNode.h */,
+				EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */,
+				EB97D78D1891D92F0039AC04 /* PPMath.h */,
+				EB97D78E1891D92F0039AC04 /* PPMath.m */,
 			);
 			path = "PaperPlane Fighting";
 			sourceTree = "<group>";
@@ -263,10 +283,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */,
 				EB1BC091187F48970056D80D /* PPAppDelegate.m in Sources */,
 				EB1BC097187F48970056D80D /* PPViewController.m in Sources */,
 				EB1BC09A187F48970056D80D /* PPMyScene.m in Sources */,
+				EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */,
+				EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */,
 				EB1BC08D187F48970056D80D /* main.m in Sources */,
+				EB97D7851891BAB40039AC04 /* SKShapeNode+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +503,7 @@
 				EB1BC0B6187F48970056D80D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EB1BC0B7187F48970056D80D /* Build configuration list for PBXNativeTarget "PaperPlane FightingTests" */ = {
 			isa = XCConfigurationList;
@@ -487,6 +512,7 @@
 				EB1BC0B9187F48970056D80D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

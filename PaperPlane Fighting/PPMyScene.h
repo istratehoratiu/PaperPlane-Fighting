@@ -7,15 +7,20 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-//
+
+@class PPSpriteNode;
+
 @interface PPMyScene : SKScene {
+    
     CGMutablePathRef pathToDraw;
-    SKShapeNode *lineNode;
-    SKSpriteNode *sprite;
-    UIButton *fireBulletsButton;
-    CGPoint  previousPoint1;
-    CGPoint  previousPoint2;
-    CGPoint  currentPoint;
+    CGMutablePathRef controlPointPath1;
+    CGMutablePathRef controlPointPath2;
+    
+    SKShapeNode* bezierPath;
+    SKShapeNode *controlPoint1;
+    SKShapeNode *controlPoint2;
+    
+    PPSpriteNode *sprite;
 }
 
 @end

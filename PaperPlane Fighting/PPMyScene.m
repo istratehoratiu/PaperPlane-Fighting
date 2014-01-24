@@ -7,6 +7,12 @@
 //
 
 #import "PPMyScene.h"
+#import "SKShapeNode+Additions.h"
+#import "SKSpriteNode+Additions.h"
+#import "PPSpriteNode.h"
+#import "PPMath.h"
+
+#define MAGNITUDE 100.0
 
 @implementation PPMyScene
 
@@ -14,59 +20,53 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        
-//        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-//        
-//        myLabel.text = @"Hello, World!";
-//        myLabel.fontSize = 30;
-//        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-//                                       CGRectGetMidY(self.frame));
-//        
-//        [self addChild:myLabel];
-        
-        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+        // Main Actor
+        sprite = [PPSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
         sprite.size = CGSizeMake(100.0, 100.0);
         sprite.position = CGPointMake(self.size.width / 2, self.size.height / 2);
         
         [self addChild:sprite];
+
+        // Path To Follow
+        pathToDraw = CGPathCreateMutable();
+        CGPathMoveToPoint(pathToDraw, NULL, sprite.position.x, sprite.position.y);
         
-        fireBulletsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        fireBulletsButton.frame = CGRectMake(500.0, 500.0, 200.0, 100);
-        fireBulletsButton.backgroundColor = [UIColor redColor];
-        [fireBulletsButton setTitle:@"Fire!!!!" forState:UIControlStateNormal | UIControlStateHighlighted];
-        [fireBulletsButton addTarget:self action:@selector(fireButtonPreset:) forControlEvents:UIControlEventTouchUpInside];
+        bezierPath = [SKShapeNode node];
+        bezierPath.path = pathToDraw;
+        bezierPath.strokeColor = [SKColor redColor];
+        bezierPath.zPosition = -1;
+        [self addChild:bezierPath];
         
-        [self.view addSubview:fireBulletsButton];
+        // Control Point 1.
+        controlPointPath1 = CGPathCreateMutable();
+        CGPathMoveToPoint(controlPointPath1, NULL, sprite.position.x, sprite.position.y);
+        
+        controlPoint1 = [SKShapeNode node];
+        controlPoint1.path = pathToDraw;
+        controlPoint1.strokeColor = [SKColor greenColor];
+        controlPoint1.zPosition = -1;
+        [self addChild:controlPoint1];
+        
+        // Control Point 2.
+        controlPointPath2 = CGPathCreateMutable();
+        CGPathMoveToPoint(controlPointPath2, NULL, sprite.position.x, sprite.position.y);
+        
+        controlPoint2 = [SKShapeNode node];
+        controlPoint2.path = pathToDraw;
+        controlPoint2.strokeColor = [SKColor blueColor];
+        controlPoint2.zPosition = -1;
+        [self addChild:controlPoint2];
     }
     return self;
 }
-//
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    /* Called when a touch begins */
-//    
-//    for (UITouch *touch in touches) {
-//        CGPoint location = [touch locationInNode:self];
-//        
-//        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-//        
-//        sprite.position = location;
-//        
-//        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-//        
-//        [sprite runAction:[SKAction repeatActionForever:action]];
-//        
-//        [self addChild:sprite];
-//    }
-//}
-//
-//
+
 - (void)fireButtonPreset:(id)sender {
-    NSLog(@">>>>>>>>>> FIRE <<<<<<<<");
+
 }
 
 -(void)update:(CFTimeInterval)currentTime {
-    
+    [sprite updateOrientationVector];
+    NSLog(@">>>>>>>>> %f", [sprite zRotation]);
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -74,32 +74,68 @@
     UITouch* touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
     
-    pathToDraw = CGPathCreateMutable();
-    CGPathMoveToPoint(pathToDraw, NULL, positionInScene.x, positionInScene.y);
+    CGPathRelease(pathToDraw);
     
-    lineNode = [SKShapeNode node];
-    lineNode.path = pathToDraw;
-    lineNode.strokeColor = [SKColor redColor];
-    lineNode.zPosition = -1;
-    [self addChild:lineNode];
+    pathToDraw = CGPathCreateMutable();
+    CGPathMoveToPoint(pathToDraw, NULL, sprite.position.x, sprite.position.y);
+    
+    CGPoint e = CGPointMake(self.view.center.x, self.view.center.y);
+    CGPoint cp1 = CGPointMake(self.size.width * 0.5 + MAGNITUDE, 0.0);
+    CGPoint cp2 = CGPointMake(e.x + MAGNITUDE, e.y);
+    
+    [controlPoint2 drawCircleAtPoint:cp2 withRadius:10];
+    [controlPoint1 drawCircleAtPoint:cp1 withRadius:10];
+    
+    CGPathAddCurveToPoint(pathToDraw, NULL, cp1.x, cp1.y, cp2.x, cp2.y, positionInScene.x, positionInScene.y);
+    bezierPath.path = pathToDraw;
+
+    SKAction *action = [SKAction followPath:pathToDraw asOffset:NO orientToPath:YES duration:3];
+    
+    [sprite runAction:action completion:^(){
+        [bezierPath removeFromParent];
+        CGPathRelease(pathToDraw);
+    }];
 }
 
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
+
+    CGPathRelease(pathToDraw);
+    
+    pathToDraw = CGPathCreateMutable();
+    CGPathMoveToPoint(pathToDraw, NULL, sprite.position.x, sprite.position.y);
     
     UITouch* touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
-    CGPathAddLineToPoint(pathToDraw, NULL, positionInScene.x, positionInScene.y);
-    lineNode.path = pathToDraw;
-}
+    
+    CGPoint e = CGPointMake(self.view.center.x, self.view.center.y);
+    CGPoint cp1 = CGPointMake(self.size.width * 0.5 + MAGNITUDE, 0.0);
+    CGPoint cp2 = CGPointMake(e.x + MAGNITUDE, e.y);
+    
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    // delete the following line if you want the line to remain on screen.
+    [controlPoint2 drawCircleAtPoint:cp2 withRadius:10];
+    [controlPoint1 drawCircleAtPoint:cp1 withRadius:10];
+    
+    CGPathAddCurveToPoint(pathToDraw, NULL, cp1.x, cp1.y, cp2.x, cp2.y, positionInScene.x, positionInScene.y);
+    bezierPath.path = pathToDraw;
+    
     SKAction *action = [SKAction followPath:pathToDraw asOffset:NO orientToPath:YES duration:3];
     
     
+    [sprite removeAllActions];
+    
     [sprite runAction:action completion:^(){
-        [lineNode removeFromParent];
+        [bezierPath removeFromParent];
         CGPathRelease(pathToDraw);
     }];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+//    SKAction *action = [SKAction followPath:pathToDraw asOffset:NO orientToPath:YES duration:3];
+//    
+//    [sprite runAction:action completion:^(){
+//        [lineNode removeFromParent];
+//        CGPathRelease(pathToDraw);
+//    }];
 }
 @end
