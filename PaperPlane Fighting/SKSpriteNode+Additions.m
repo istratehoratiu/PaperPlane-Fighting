@@ -59,11 +59,11 @@ CGPoint skPointsDivide(CGPoint startingPosition, CGPoint endPoint) {
                          endPoint.x,
                          endPoint.y);
     
-    NSLog(@"START X:%f --- Y:%f END X:%f --- Y:%f",
-          startingPosition.x,
-          startingPosition.y,
-          endPoint.x,
-          endPoint.y);
+//    NSLog(@"START X:%f --- Y:%f END X:%f --- Y:%f",
+//          startingPosition.x,
+//          startingPosition.y,
+//          endPoint.x,
+//          endPoint.y);
     
     return thePath;
 }

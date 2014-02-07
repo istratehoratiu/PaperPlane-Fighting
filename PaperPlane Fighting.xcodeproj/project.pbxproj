@@ -24,6 +24,7 @@
 		EB1BC0A7187F48970056D80D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1BC082187F48970056D80D /* UIKit.framework */; };
 		EB1BC0AF187F48970056D80D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB1BC0AD187F48970056D80D /* InfoPlist.strings */; };
 		EB1BC0B1187F48970056D80D /* PaperPlane_FightingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC0B0187F48970056D80D /* PaperPlane_FightingTests.m */; };
+		EB29AF3C18A43CA400A75689 /* B 2.png in Resources */ = {isa = PBXBuildFile; fileRef = EB29AF3B18A43CA400A75689 /* B 2.png */; };
 		EB97D7851891BAB40039AC04 /* SKShapeNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */; };
 		EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */; };
 		EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */; };
@@ -64,6 +65,7 @@
 		EB1BC0AC187F48970056D80D /* PaperPlane FightingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PaperPlane FightingTests-Info.plist"; sourceTree = "<group>"; };
 		EB1BC0AE187F48970056D80D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB1BC0B0187F48970056D80D /* PaperPlane_FightingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaperPlane_FightingTests.m; sourceTree = "<group>"; };
+		EB29AF3B18A43CA400A75689 /* B 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "B 2.png"; sourceTree = "<group>"; };
 		EB97D7831891BAB40039AC04 /* SKShapeNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKShapeNode+Additions.h"; sourceTree = "<group>"; };
 		EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKShapeNode+Additions.m"; sourceTree = "<group>"; };
 		EB97D7861891BE390039AC04 /* SKSpriteNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKSpriteNode+Additions.h"; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				EB1BC096187F48970056D80D /* PPViewController.m */,
 				EB1BC098187F48970056D80D /* PPMyScene.h */,
 				EB1BC099187F48970056D80D /* PPMyScene.m */,
+				EB29AF3B18A43CA400A75689 /* B 2.png */,
 				EB1BC09B187F48970056D80D /* Spaceship.png */,
 				EB1BC09D187F48970056D80D /* Images.xcassets */,
 				EB1BC087187F48970056D80D /* Supporting Files */,
@@ -264,6 +267,7 @@
 				EB1BC08B187F48970056D80D /* InfoPlist.strings in Resources */,
 				EB1BC09E187F48970056D80D /* Images.xcassets in Resources */,
 				EB1BC09C187F48970056D80D /* Spaceship.png in Resources */,
+				EB29AF3C18A43CA400A75689 /* B 2.png in Resources */,
 				EB1BC094187F48970056D80D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

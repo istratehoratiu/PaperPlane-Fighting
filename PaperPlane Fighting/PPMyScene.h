@@ -21,6 +21,9 @@
     SKShapeNode *controlPoint2;
     
     PPSpriteNode *sprite;
+    
+    CFTimeInterval _lastUpdateTime;
+    CFTimeInterval _deltaTime;
 }
 
 @end

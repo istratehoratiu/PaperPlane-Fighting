@@ -11,7 +11,19 @@
 @interface PPSpriteNode : SKSpriteNode {
     SKShapeNode *orientationNode;
     SKShapeNode *northLineNode;
+    SKShapeNode *spriteOrientationLine;
+    // point to which the sprite point to. the target of the movement(touch) in case of the main airplane
+    CGPoint _targetPoint;
+    BOOL _spriteFinishedOrientationRotation;
 }
+
+@property (nonatomic, assign) CGPoint targetPoint;
+@property (nonatomic, assign) BOOL spriteFinishedOrientationRotation;
+
+
 - (void)updateOrientationVector;
+- (void)updateMove:(CFTimeInterval)dt;
+- (void)updateRotation:(CFTimeInterval)dt;
+
 
 @end
