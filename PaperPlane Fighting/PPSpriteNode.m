@@ -12,10 +12,57 @@
 #define SPEED 10
 #define ROTATION_SPEED 0.9
 
+static const uint32_t projectileCategory     =  0x1 << 0;
+static const uint32_t monsterCategory        =  0x1 << 1;
+
+static inline CGPoint rwAdd(CGPoint a, CGPoint b) {
+    return CGPointMake(a.x + b.x, a.y + b.y);
+}
+
+static inline CGPoint rwSub(CGPoint a, CGPoint b) {
+    return CGPointMake(a.x - b.x, a.y - b.y);
+}
+
+static inline CGPoint rwMult(CGPoint a, float b) {
+    return CGPointMake(a.x * b, a.y * b);
+}
+
+static inline float rwLength(CGPoint a) {
+    return sqrtf(a.x * a.x + a.y * a.y);
+}
+
+// Makes a vector have a length of 1
+static inline CGPoint rwNormalize(CGPoint a) {
+    float length = rwLength(a);
+    return CGPointMake(a.x / length, a.y / length);
+}
+
 @implementation PPSpriteNode
 
 @dynamic targetPoint;
 @synthesize spriteFinishedOrientationRotation = _spriteFinishedOrientationRotation;
+
+- (id)initWithImageNamed:(NSString *)name {
+    self = [super initWithImageNamed:name];
+    
+    if (self) {
+        
+        SKSpriteNode *_propeller = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE PROPELLER 1.png"];
+        _propeller.scale = 0.2;
+        _propeller.position = CGPointMake(self.position.x + 45, self.position.y );
+        
+        SKTexture *propeller1 = [SKTexture textureWithImageNamed:@"PLANE PROPELLER 1.png"];
+        SKTexture *propeller2 = [SKTexture textureWithImageNamed:@"PLANE PROPELLER 2.png"];
+        
+        SKAction *spin = [SKAction animateWithTextures:@[propeller1,propeller2] timePerFrame:0.1];
+        SKAction *spinForever = [SKAction repeatActionForever:spin];
+        [_propeller runAction:spinForever];
+        
+        [self addChild:_propeller];
+    }
+    
+    return self;
+}
 
 - (void)setTargetPoint:(CGPoint)targetPoint {
     _targetPoint = targetPoint;
@@ -24,6 +71,53 @@
 
 - (CGPoint)targetPoint {
     return _targetPoint;
+}
+
+- (void)fireBullet {
+    
+    SKSpriteNode *projectile = [SKSpriteNode spriteNodeWithImageNamed:@"B 2.png"];
+    
+    projectile.zRotation = self.zRotation;
+    projectile.position = self.position;
+    
+    //CGPoint location = [self.parent convertPoint:CGPointMake(self.size.width * 0.5, self.size.height * 0.5) fromNode:self];
+    CGPoint offset = rwSub([self.parent convertPoint:CGPointMake(self.size.width * 0.5, self.size.height * 0.5) fromNode:self], projectile.position);
+    
+    projectile.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:projectile.size.width * 0.5];
+    projectile.physicsBody.dynamic = YES;
+    projectile.physicsBody.categoryBitMask = projectileCategory;
+    projectile.physicsBody.contactTestBitMask = monsterCategory;
+    projectile.physicsBody.collisionBitMask = 0;
+    projectile.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    // 5 - OK to add now - we've double checked position
+    [self.parent addChild:projectile];
+    
+    
+    CGPoint endPoint;
+    CGPoint startingPosition = CGPointMake(0.0, 0.0);
+    endPoint.y = sinf(self.zRotation) * (self.size.width * 0.5);
+    endPoint.x = cosf(self.zRotation) * (self.size.width * 0.5);
+    endPoint = [self skPointsAdd:startingPosition andVector:endPoint];
+    
+    // 6 - Get the direction of where to shoot
+    CGPoint direction = rwNormalize(endPoint);
+    
+    // 7 - Make it shoot far enough to be guaranteed off screen
+    CGPoint shootAmount = rwMult(direction, 1000);
+    
+    // 8 - Add the shoot amount to the current position
+    //CGPoint realDest = rwAdd(shootAmount, projectile.position);
+    
+    CGVector vectorDir = CGVectorMake(shootAmount.x, shootAmount.y);
+    
+    // 9 - Create the actions
+    float velocity = 80.0/1.0;
+    float realMoveDuration = self.size.width / velocity;
+    SKAction * actionMove = [SKAction moveBy:vectorDir duration:realMoveDuration];
+    //SKAction * actionMove = [SKAction moveTo:shootAmount duration:realMoveDuration];
+    SKAction * actionMoveDone = [SKAction removeFromParent];
+    [projectile runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
 }
 
 - (void)updateMove:(CFTimeInterval)dt {
@@ -66,6 +160,11 @@
             [self setZRotation:self.zRotation - (ROTATION_SPEED * dt)];
             
             _spriteFinishedOrientationRotation = YES;
+            
+            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 N.png"];
+            
+        } else {
+            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 L.png"];
         }
         
         
@@ -78,6 +177,11 @@
             [self setZRotation:self.zRotation + (ROTATION_SPEED * dt)];
             
             _spriteFinishedOrientationRotation = YES;
+            
+            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 N.png"];
+            
+        } else {
+            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 R.png"];
         }
     }
 }
@@ -88,7 +192,7 @@
         orientationNode = [SKShapeNode node];
         orientationNode.strokeColor = [SKColor yellowColor];
         orientationNode.zPosition = 1;
-        [self addChild:orientationNode];
+        //[self addChild:orientationNode];
     }
     
     if (!northLineNode) {
@@ -107,7 +211,7 @@
                              self.size.height);
         northLineNode.path = thePath;
         
-        [self addChild:northLineNode];
+        //[self addChild:northLineNode];
     }
     
     if (!spriteOrientationLine) {
@@ -126,7 +230,7 @@
                              0.0);
         spriteOrientationLine.path = thePath;
         
-        [self addChild:spriteOrientationLine];
+        //[self addChild:spriteOrientationLine];
     }
     
     orientationNode.path = [self getPathForSpriteOrientation];
@@ -143,7 +247,6 @@
 - (BOOL)checkIfPoint:(CGPoint)pointToCheck isToTheLeftOfLineGivenByThePoint:(CGPoint)firstLinePoint andPoint:(CGPoint)secondLinePoint {
     return ((secondLinePoint.x - firstLinePoint.x)*(pointToCheck.y - firstLinePoint.y) - (secondLinePoint.y - firstLinePoint.y)*(pointToCheck.x - firstLinePoint.x)) > 0;
 }
-
 
 - (CGPoint)skPointsAdd:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
     return CGPointMake(startingPosition.x + endPoint.x, startingPosition.y + endPoint.y);

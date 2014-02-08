@@ -12,5 +12,6 @@
 
 - (CGVector)getSpriteOrientation;
 - (CGMutablePathRef)getPathForSpriteOrientation;
+- (CGPoint)getVectorRepresentingTheDirectionOfTheSprite;
 
 @end

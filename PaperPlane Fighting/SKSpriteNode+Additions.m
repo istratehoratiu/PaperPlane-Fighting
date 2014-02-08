@@ -59,13 +59,18 @@ CGPoint skPointsDivide(CGPoint startingPosition, CGPoint endPoint) {
                          endPoint.x,
                          endPoint.y);
     
-//    NSLog(@"START X:%f --- Y:%f END X:%f --- Y:%f",
-//          startingPosition.x,
-//          startingPosition.y,
-//          endPoint.x,
-//          endPoint.y);
-    
     return thePath;
+}
+
+- (CGPoint)getVectorRepresentingTheDirectionOfTheSprite {
+    
+    CGPoint endPoint;
+    CGPoint startingPosition = CGPointMake(0.0, 0.0);
+    endPoint.x = sinf(self.zRotation) * DISTANCE_FROM_CENTER_OF_SPRITE;
+    endPoint.y = cosf(self.zRotation) * DISTANCE_FROM_CENTER_OF_SPRITE;
+    endPoint = skPointsAdd(startingPosition, endPoint);
+    
+    return endPoint;
 }
 
 @end

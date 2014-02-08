@@ -24,6 +24,10 @@
     
     CFTimeInterval _lastUpdateTime;
     CFTimeInterval _deltaTime;
+    
+    CGRect screenRect;
+    CGFloat screenHeight;
+    CGFloat screenWidth;
 }
 
 @end

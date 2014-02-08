@@ -20,10 +20,9 @@
 @property (nonatomic, assign) CGPoint targetPoint;
 @property (nonatomic, assign) BOOL spriteFinishedOrientationRotation;
 
-
 - (void)updateOrientationVector;
 - (void)updateMove:(CFTimeInterval)dt;
 - (void)updateRotation:(CFTimeInterval)dt;
-
+- (void)fireBullet;
 
 @end
