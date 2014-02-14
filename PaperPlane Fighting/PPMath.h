@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PPMath : NSObject {}
-
-//CGPoint skPointsAdd(CGPoint startingPosition, CGPoint endPoint);
-//CGPoint skPointsSubtract(CGPoint startingPosition, CGPoint endPoint);
-//CGPoint skPointsMultiply(CGPoint startingPosition, CGPoint endPoint);
-//CGPoint skPointsDivide(CGPoint startingPosition, CGPoint endPoint);
-//CGFloat degreesToRadians(CGFloat degrees);
-//CGFloat radiansToDegrees(CGFloat radians);
-
-@end
+CGPoint skPointsAdd(CGPoint startingPosition, CGPoint endPoint);
+CGPoint skPointsSubtract(CGPoint startingPosition, CGPoint endPoint);
+CGPoint skPointsMultiply(CGPoint startingPosition, CGFloat value);
+CGPoint skPointsDivide (CGPoint startingPosition, CGFloat value);
+CGPoint normalizeVector (CGPoint vector);
+CGPoint getSpriteOrientationForRadians(CGFloat radians);
+CGFloat degreesToRadians(CGFloat degrees);
+CGFloat radiansToDegrees(CGFloat radians);
+BOOL checkIfPointIsToTheLeftOfLineGivenByTwoPoints (CGPoint pointToCheck, CGPoint firstLinePoint, CGPoint secondLinePoint);

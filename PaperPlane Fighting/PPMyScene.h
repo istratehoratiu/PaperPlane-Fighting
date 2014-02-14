@@ -12,22 +12,21 @@
 
 @interface PPMyScene : SKScene {
     
-    CGMutablePathRef pathToDraw;
-    CGMutablePathRef controlPointPath1;
-    CGMutablePathRef controlPointPath2;
-    
-    SKShapeNode* bezierPath;
-    SKShapeNode *controlPoint1;
-    SKShapeNode *controlPoint2;
-    
-    PPSpriteNode *sprite;
+    PPSpriteNode *_userAirplane;
     
     CFTimeInterval _lastUpdateTime;
     CFTimeInterval _deltaTime;
     
-    CGRect screenRect;
-    CGFloat screenHeight;
-    CGFloat screenWidth;
+    CGRect _screenRect;
+    CGFloat _screenHeight;
+    CGFloat _screenWidth;
 }
+
+@property (nonatomic, retain) PPSpriteNode *userAirplane;
+@property (nonatomic, assign) CGRect screenRect;
+@property (nonatomic, assign) CGFloat screenHeight;
+@property (nonatomic, assign) CGFloat screenWidth;
+@property (nonatomic, assign) CFTimeInterval lastUpdateTime;
+@property (nonatomic, assign) CFTimeInterval deltaTime;
 
 @end

@@ -40,6 +40,10 @@
 		EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */; };
 		EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */; };
 		EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78E1891D92F0039AC04 /* PPMath.m */; };
+		EBC1BC8B18A7D7A8006DF94A /* PPMainAirplane.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC8A18A7D7A8006DF94A /* PPMainAirplane.m */; };
+		EBC1BC8E18A7D7CA006DF94A /* PPMissile.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC8D18A7D7CA006DF94A /* PPMissile.m */; };
+		EBC1BC9118A7D7E0006DF94A /* PPHunterAirplane.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */; };
+		EBC1BC9418A7D7EE006DF94A /* PPBomber.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC9318A7D7EE006DF94A /* PPBomber.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +102,14 @@
 		EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSpriteNode.m; sourceTree = "<group>"; };
 		EB97D78D1891D92F0039AC04 /* PPMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMath.h; sourceTree = "<group>"; };
 		EB97D78E1891D92F0039AC04 /* PPMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMath.m; sourceTree = "<group>"; };
+		EBC1BC8918A7D7A8006DF94A /* PPMainAirplane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMainAirplane.h; sourceTree = "<group>"; };
+		EBC1BC8A18A7D7A8006DF94A /* PPMainAirplane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMainAirplane.m; sourceTree = "<group>"; };
+		EBC1BC8C18A7D7CA006DF94A /* PPMissile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMissile.h; sourceTree = "<group>"; };
+		EBC1BC8D18A7D7CA006DF94A /* PPMissile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMissile.m; sourceTree = "<group>"; };
+		EBC1BC8F18A7D7E0006DF94A /* PPHunterAirplane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHunterAirplane.h; sourceTree = "<group>"; };
+		EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPHunterAirplane.m; sourceTree = "<group>"; };
+		EBC1BC9218A7D7EE006DF94A /* PPBomber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBomber.h; sourceTree = "<group>"; };
+		EBC1BC9318A7D7EE006DF94A /* PPBomber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPBomber.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +221,14 @@
 			children = (
 				EB97D78A1891C91C0039AC04 /* PPSpriteNode.h */,
 				EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */,
+				EBC1BC8918A7D7A8006DF94A /* PPMainAirplane.h */,
+				EBC1BC8A18A7D7A8006DF94A /* PPMainAirplane.m */,
+				EBC1BC8C18A7D7CA006DF94A /* PPMissile.h */,
+				EBC1BC8D18A7D7CA006DF94A /* PPMissile.m */,
+				EBC1BC8F18A7D7E0006DF94A /* PPHunterAirplane.h */,
+				EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */,
+				EBC1BC9218A7D7EE006DF94A /* PPBomber.h */,
+				EBC1BC9318A7D7EE006DF94A /* PPBomber.m */,
 			);
 			name = Actors;
 			sourceTree = "<group>";
@@ -389,14 +409,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBC1BC8B18A7D7A8006DF94A /* PPMainAirplane.m in Sources */,
 				EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */,
+				EBC1BC9418A7D7EE006DF94A /* PPBomber.m in Sources */,
 				EB7D82F118A69D45006EC594 /* PPConstants.m in Sources */,
 				EB7D82D518A57C8D006EC594 /* SKButtonNode.m in Sources */,
 				EB1BC091187F48970056D80D /* PPAppDelegate.m in Sources */,
 				EB1BC097187F48970056D80D /* PPViewController.m in Sources */,
 				EB1BC09A187F48970056D80D /* PPMyScene.m in Sources */,
 				EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */,
+				EBC1BC8E18A7D7CA006DF94A /* PPMissile.m in Sources */,
 				EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */,
+				EBC1BC9118A7D7E0006DF94A /* PPHunterAirplane.m in Sources */,
 				EB1BC08D187F48970056D80D /* main.m in Sources */,
 				EB97D7851891BAB40039AC04 /* SKShapeNode+Additions.m in Sources */,
 			);

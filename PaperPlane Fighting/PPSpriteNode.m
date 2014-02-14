@@ -8,34 +8,14 @@
 
 #import "PPSpriteNode.h"
 #import "SKSpriteNode+Additions.h"
+#import "PPMath.h"
 
-#define SPEED 10
-#define ROTATION_SPEED 0.9
+#define SPEED 2
+#define ROTATION_SPEED 1.5
 
 static const uint32_t projectileCategory     =  0x1 << 0;
 static const uint32_t monsterCategory        =  0x1 << 1;
 
-static inline CGPoint rwAdd(CGPoint a, CGPoint b) {
-    return CGPointMake(a.x + b.x, a.y + b.y);
-}
-
-static inline CGPoint rwSub(CGPoint a, CGPoint b) {
-    return CGPointMake(a.x - b.x, a.y - b.y);
-}
-
-static inline CGPoint rwMult(CGPoint a, float b) {
-    return CGPointMake(a.x * b, a.y * b);
-}
-
-static inline float rwLength(CGPoint a) {
-    return sqrtf(a.x * a.x + a.y * a.y);
-}
-
-// Makes a vector have a length of 1
-static inline CGPoint rwNormalize(CGPoint a) {
-    float length = rwLength(a);
-    return CGPointMake(a.x / length, a.y / length);
-}
 
 @implementation PPSpriteNode
 
@@ -80,9 +60,6 @@ static inline CGPoint rwNormalize(CGPoint a) {
     projectile.zRotation = self.zRotation;
     projectile.position = self.position;
     
-    //CGPoint location = [self.parent convertPoint:CGPointMake(self.size.width * 0.5, self.size.height * 0.5) fromNode:self];
-    CGPoint offset = rwSub([self.parent convertPoint:CGPointMake(self.size.width * 0.5, self.size.height * 0.5) fromNode:self], projectile.position);
-    
     projectile.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:projectile.size.width * 0.5];
     projectile.physicsBody.dynamic = YES;
     projectile.physicsBody.categoryBitMask = projectileCategory;
@@ -93,18 +70,17 @@ static inline CGPoint rwNormalize(CGPoint a) {
     // 5 - OK to add now - we've double checked position
     [self.parent addChild:projectile];
     
-    
     CGPoint endPoint;
     CGPoint startingPosition = CGPointMake(0.0, 0.0);
     endPoint.y = sinf(self.zRotation) * (self.size.width * 0.5);
     endPoint.x = cosf(self.zRotation) * (self.size.width * 0.5);
-    endPoint = [self skPointsAdd:startingPosition andVector:endPoint];
+    endPoint = skPointsAdd(startingPosition, endPoint);
     
     // 6 - Get the direction of where to shoot
-    CGPoint direction = rwNormalize(endPoint);
+    CGPoint direction = normalizeVector(endPoint);
     
     // 7 - Make it shoot far enough to be guaranteed off screen
-    CGPoint shootAmount = rwMult(direction, 1000);
+    CGPoint shootAmount = skPointsMultiply(direction, 1000);
     
     // 8 - Add the shoot amount to the current position
     //CGPoint realDest = rwAdd(shootAmount, projectile.position);
@@ -112,7 +88,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
     CGVector vectorDir = CGVectorMake(shootAmount.x, shootAmount.y);
     
     // 9 - Create the actions
-    float velocity = 80.0/1.0;
+    float velocity = 30.0/1.0;
     float realMoveDuration = self.size.width / velocity;
     SKAction * actionMove = [SKAction moveBy:vectorDir duration:realMoveDuration];
     //SKAction * actionMove = [SKAction moveTo:shootAmount duration:realMoveDuration];
@@ -124,15 +100,15 @@ static inline CGPoint rwNormalize(CGPoint a) {
 
     CGPoint destinationPoint = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
     
-    CGPoint offset = [self skPointsSubtract:destinationPoint andVector:self.position];
+    CGPoint offset = skPointsSubtract(destinationPoint, self.position);
  
-    CGPoint targetVector =     [self normalizeVector:offset];
+    CGPoint targetVector =  normalizeVector(offset);
     // 5
     float POINTS_PER_SECOND = 100;
-    CGPoint targetPerSecond = [self skPointsMultiply:targetVector andValue:POINTS_PER_SECOND];
+    CGPoint targetPerSecond = skPointsMultiply(targetVector, POINTS_PER_SECOND);
     // 6
     //CGPoint actualTarget = ccpAdd(self.position, ccpMult(targetPerSecond, dt));
-    CGPoint actualTarget = [self skPointsAdd:self.position andVector:[self skPointsMultiply:targetPerSecond andValue:dt]];
+    CGPoint actualTarget = skPointsAdd(self.position, skPointsMultiply(targetPerSecond, dt));
 
     self.position = actualTarget;
     
@@ -147,7 +123,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
     CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
     CGPoint lineEnd = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
     
-    if ([self checkIfPoint:_targetPoint isToTheLeftOfLineGivenByThePoint:lineSource andPoint:lineEnd]) {
+    if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
         
         [self setZRotation:self.zRotation + (ROTATION_SPEED * dt)];
         
@@ -155,7 +131,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
         CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
         CGPoint lineEnd = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
         
-        if (![self checkIfPoint:_targetPoint isToTheLeftOfLineGivenByThePoint:lineSource andPoint:lineEnd]) {
+        if (!checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
             
             [self setZRotation:self.zRotation - (ROTATION_SPEED * dt)];
             
@@ -172,7 +148,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
         
         [self setZRotation:self.zRotation - (ROTATION_SPEED * dt)];
         
-        if ([self checkIfPoint:_targetPoint isToTheLeftOfLineGivenByThePoint:lineSource andPoint:lineEnd]) {
+        if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
             
             [self setZRotation:self.zRotation + (ROTATION_SPEED * dt)];
             
@@ -192,6 +168,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
         orientationNode = [SKShapeNode node];
         orientationNode.strokeColor = [SKColor yellowColor];
         orientationNode.zPosition = 1;
+        // Uncommnet if orientation vectors are needed.
         //[self addChild:orientationNode];
     }
     
@@ -200,7 +177,6 @@ static inline CGPoint rwNormalize(CGPoint a) {
         northLineNode.strokeColor = [SKColor blueColor];
         northLineNode.zPosition = 1;
         
-        CGPoint startingPosition = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
         // Create new path that will contain the final coordinates.
         CGMutablePathRef thePath = CGPathCreateMutable();
         // Set the starting position of the direction vector to be the center of the sprite.
@@ -210,7 +186,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
                              0.0,
                              self.size.height);
         northLineNode.path = thePath;
-        
+        // Uncommnet if orientation vectors are needed.
         //[self addChild:northLineNode];
     }
     
@@ -218,8 +194,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
         spriteOrientationLine = [SKShapeNode node];
         spriteOrientationLine.strokeColor = [SKColor redColor];
         spriteOrientationLine.zPosition = 1;
-        
-        CGPoint startingPosition = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
+
         // Create new path that will contain the final coordinates.
         CGMutablePathRef thePath = CGPathCreateMutable();
         // Set the starting position of the direction vector to be the center of the sprite.
@@ -229,7 +204,7 @@ static inline CGPoint rwNormalize(CGPoint a) {
                              self.size.width,
                              0.0);
         spriteOrientationLine.path = thePath;
-        
+        // Uncommnet if orientation vectors are needed.
         //[self addChild:spriteOrientationLine];
     }
     
@@ -238,31 +213,6 @@ static inline CGPoint rwNormalize(CGPoint a) {
 
 }
 
-- (CGPoint)calculateControlPoint2GivenStartingPoint:(CGPoint)startingPoint firstControlPoint:(CGPoint)firstControlPoint andEndPoint:(CGPoint) endPoint {
-    CGPoint controlPoint = CGPointZero;
-    
-    return controlPoint;
-}
-
-- (BOOL)checkIfPoint:(CGPoint)pointToCheck isToTheLeftOfLineGivenByThePoint:(CGPoint)firstLinePoint andPoint:(CGPoint)secondLinePoint {
-    return ((secondLinePoint.x - firstLinePoint.x)*(pointToCheck.y - firstLinePoint.y) - (secondLinePoint.y - firstLinePoint.y)*(pointToCheck.x - firstLinePoint.x)) > 0;
-}
-
-- (CGPoint)skPointsAdd:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
-    return CGPointMake(startingPosition.x + endPoint.x, startingPosition.y + endPoint.y);
-}
-
-- (CGPoint)skPointsSubtract:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
-    return CGPointMake(startingPosition.x - endPoint.x, startingPosition.y - endPoint.y);
-}
-
-- (CGPoint)skPointsMultiply:(CGPoint)startingPosition andValue:(CGFloat)value {
-    return CGPointMake(startingPosition.x * value, startingPosition.y * value);
-}
-
-- (CGPoint)skPointsDivide:(CGPoint)startingPosition andValue:(CGFloat)value {
-    return CGPointMake(startingPosition.x / value, startingPosition.y / value);
-}
 
 // 1. Calculate the cosine of the angle and multiply this by the distance.
 // 2. Calculate the sine of the angle and multiply this by the distance.
@@ -270,17 +220,5 @@ static inline CGPoint rwNormalize(CGPoint a) {
     return CGVectorMake(cosf(radians), sinf(radians));
 }
 
-- (CGFloat)degreesToRadians:(CGFloat)degrees {
-    return degrees * (M_PI * 180.0f);
-}
-
-- (CGFloat)radiansToDegrees:(CGFloat)radians {
-    return radians * (180.0f / M_PI);
-}
-
-- (CGPoint)normalizeVector:(CGPoint)vector {
-    CGFloat magnitude = sqrt(pow(vector.x, 2) + pow(vector.y, 2));
-    return CGPointMake(vector.x / magnitude, vector.y / magnitude);
-}
 
 @end

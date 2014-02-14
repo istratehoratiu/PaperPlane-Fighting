@@ -8,9 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface SKShapeNode (SKShapeNode_Additions) {
-
-}
+@interface SKShapeNode (SKShapeNode_Additions)
 
 - (void)drawCircleAtPoint:(CGPoint)circleCenter withRadius:(CGFloat)radius;
 
