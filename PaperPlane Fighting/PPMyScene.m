@@ -12,6 +12,8 @@
 #import "PPSpriteNode.h"
 #import "PPMath.h"
 #import "SKButtonNode.h"
+#import "PPMainAirplane.h"
+#import "PPMissile.h"
 
 
 #define MAGNITUDE 100.0
@@ -36,7 +38,7 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         _screenWidth = _screenRect.size.width;
         
         // Main Actor
-        _userAirplane = [[PPSpriteNode alloc] initWithImageNamed:@"PLANE 8 N"];
+        _userAirplane = [[PPMainAirplane alloc] initWithImageNamed:@"PLANE 8 N"];
         _userAirplane.scale = 0.2;
         _userAirplane.position = CGPointMake(self.size.width / 2, self.size.height / 2);
         
@@ -151,22 +153,6 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     return controlPoint;
 }
 
-//- (CGPoint)skPointsAdd:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
-//    return CGPointMake(startingPosition.x + endPoint.x, startingPosition.y + endPoint.y);
-//}
-//
-//- (CGPoint)skPointsSubtract:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
-//    return CGPointMake(startingPosition.x - endPoint.x, startingPosition.y - endPoint.y);
-//}
-//
-//- (CGPoint)skPointsMultiply:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
-//    return CGPointMake(startingPosition.x * endPoint.x, startingPosition.y * endPoint.y);
-//}
-//
-//- (CGPoint)skPointsDivide:(CGPoint)startingPosition andVector:(CGPoint)endPoint {
-//    return CGPointMake(startingPosition.x / endPoint.x, startingPosition.y / endPoint.y);
-//}
-
 // 1. Calculate the cosine of the angle and multiply this by the distance.
 // 2. Calculate the sine of the angle and multiply this by the distance.
 - (CGVector)getSpriteOrientationForRadians:(CGFloat)radians {
@@ -191,7 +177,7 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         
         int randomEnemy = [self getRandomNumberBetween:0 to:1];
         if(randomEnemy == 0)
-            enemy = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE 1 N.png"];
+            enemy = [[PPMissile alloc] initMissileNode];
         else
             enemy = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE 2 N.png"];
         

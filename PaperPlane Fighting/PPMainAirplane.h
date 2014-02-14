@@ -8,6 +8,10 @@
 
 #import "PPSpriteNode.h"
 
-@interface PPMainAirplane : PPSpriteNode
+@interface PPMainAirplane : PPSpriteNode {
+
+}
+
+- (void)fireBullet;
 
 @end

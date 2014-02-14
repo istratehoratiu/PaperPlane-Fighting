@@ -8,6 +8,12 @@
 
 #import "PPSpriteNode.h"
 
-@interface PPMissile : PPSpriteNode
+@interface PPMissile : PPSpriteNode {
+    SKSpriteNode *_smokeTrail;
+}
+
+@property (nonatomic, retain) SKSpriteNode *smokeTrail;
+
+- (id)initMissileNode;
 
 @end

@@ -9,10 +9,11 @@
 #import <SpriteKit/SpriteKit.h>
 
 @class PPSpriteNode;
+@class PPMainAirplane;
 
 @interface PPMyScene : SKScene {
     
-    PPSpriteNode *_userAirplane;
+    PPMainAirplane *_userAirplane;
     
     CFTimeInterval _lastUpdateTime;
     CFTimeInterval _deltaTime;
@@ -22,7 +23,7 @@
     CGFloat _screenWidth;
 }
 
-@property (nonatomic, retain) PPSpriteNode *userAirplane;
+@property (nonatomic, retain) PPMainAirplane *userAirplane;
 @property (nonatomic, assign) CGRect screenRect;
 @property (nonatomic, assign) CGFloat screenHeight;
 @property (nonatomic, assign) CGFloat screenWidth;

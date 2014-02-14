@@ -44,6 +44,10 @@
 		EBC1BC8E18A7D7CA006DF94A /* PPMissile.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC8D18A7D7CA006DF94A /* PPMissile.m */; };
 		EBC1BC9118A7D7E0006DF94A /* PPHunterAirplane.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */; };
 		EBC1BC9418A7D7EE006DF94A /* PPBomber.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC9318A7D7EE006DF94A /* PPBomber.m */; };
+		EBD32CC618AE94BB00F8F1D1 /* missile.png in Resources */ = {isa = PBXBuildFile; fileRef = EBD32CC518AE94BB00F8F1D1 /* missile.png */; };
+		EBD32CC818AEA2B800F8F1D1 /* SMOKE TRAIL.png in Resources */ = {isa = PBXBuildFile; fileRef = EBD32CC718AEA2B800F8F1D1 /* SMOKE TRAIL.png */; };
+		EBD32CCB18AEA30300F8F1D1 /* trail.sks in Resources */ = {isa = PBXBuildFile; fileRef = EBD32CC918AEA30300F8F1D1 /* trail.sks */; };
+		EBD32CCC18AEA30300F8F1D1 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = EBD32CCA18AEA30300F8F1D1 /* spark.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +114,10 @@
 		EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPHunterAirplane.m; sourceTree = "<group>"; };
 		EBC1BC9218A7D7EE006DF94A /* PPBomber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBomber.h; sourceTree = "<group>"; };
 		EBC1BC9318A7D7EE006DF94A /* PPBomber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPBomber.m; sourceTree = "<group>"; };
+		EBD32CC518AE94BB00F8F1D1 /* missile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missile.png; sourceTree = "<group>"; };
+		EBD32CC718AEA2B800F8F1D1 /* SMOKE TRAIL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SMOKE TRAIL.png"; sourceTree = "<group>"; };
+		EBD32CC918AEA30300F8F1D1 /* trail.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = trail.sks; sourceTree = "<group>"; };
+		EBD32CCA18AEA30300F8F1D1 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +245,8 @@
 			isa = PBXGroup;
 			children = (
 				EB7D82E618A593FE006EC594 /* airPlanesBackground.png */,
+				EBD32CC718AEA2B800F8F1D1 /* SMOKE TRAIL.png */,
+				EBD32CC518AE94BB00F8F1D1 /* missile.png */,
 				EB7D82D618A580ED006EC594 /* PLANE 1 N.png */,
 				EB7D82D718A580ED006EC594 /* PLANE 2 N.png */,
 				EB7D82D818A580ED006EC594 /* PLANE 8 L.png */,
@@ -247,6 +257,8 @@
 				EB7D82DD18A580ED006EC594 /* PLANE PROPELLER 2.png */,
 				EB29AF3B18A43CA400A75689 /* B 2.png */,
 				EB1BC09B187F48970056D80D /* Spaceship.png */,
+				EBD32CC918AEA30300F8F1D1 /* trail.sks */,
+				EBD32CCA18AEA30300F8F1D1 /* spark.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -378,17 +390,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB1BC08B187F48970056D80D /* InfoPlist.strings in Resources */,
+				EBD32CCC18AEA30300F8F1D1 /* spark.png in Resources */,
 				EB7D82DF18A580ED006EC594 /* PLANE 2 N.png in Resources */,
 				EB7D82DE18A580ED006EC594 /* PLANE 1 N.png in Resources */,
 				EB7D82E118A580ED006EC594 /* PLANE 8 N.png in Resources */,
 				EB1BC09E187F48970056D80D /* Images.xcassets in Resources */,
 				EB7D82E718A593FE006EC594 /* airPlanesBackground.png in Resources */,
 				EB7D82E018A580ED006EC594 /* PLANE 8 L.png in Resources */,
+				EBD32CC618AE94BB00F8F1D1 /* missile.png in Resources */,
 				EB7D82E218A580ED006EC594 /* PLANE 8 R.png in Resources */,
+				EBD32CCB18AEA30300F8F1D1 /* trail.sks in Resources */,
 				EB1BC09C187F48970056D80D /* Spaceship.png in Resources */,
 				EB29AF3C18A43CA400A75689 /* B 2.png in Resources */,
 				EB1BC094187F48970056D80D /* Main.storyboard in Resources */,
 				EB7D82E418A580ED006EC594 /* PLANE PROPELLER 1.png in Resources */,
+				EBD32CC818AEA2B800F8F1D1 /* SMOKE TRAIL.png in Resources */,
 				EB7D82E318A580ED006EC594 /* PLANE 8 SHADOW.png in Resources */,
 				EB7D82E518A580ED006EC594 /* PLANE PROPELLER 2.png in Resources */,
 			);
