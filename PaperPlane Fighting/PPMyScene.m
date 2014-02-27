@@ -14,6 +14,7 @@
 #import "SKButtonNode.h"
 #import "PPMainAirplane.h"
 #import "PPMissile.h"
+#import "PPMainBase.h"  
 
 
 #define MAGNITUDE 100.0
@@ -25,8 +26,25 @@ static const uint32_t monsterCategory        =  0x1 << 1;
 
 @implementation PPMyScene
 
+
+@synthesize arrayOfCurrentMissilesOnScreen = _arrayOfCurrentMissilesOnScreen;
+
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
+        
+        
+        SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"airPlanesBackground"];
+        background.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
+        background.blendMode = SKBlendModeReplace;
+        [self addChild:background];
+        
+        _mainBase = [[PPMainBase alloc] initMainBaseNode];
+        _mainBase.scale = 0.2;
+        _mainBase.position = CGPointMake(self.size.width / 2, self.size.height / 2);
+        [self addChild:_mainBase];
+        
+        self.arrayOfCurrentMissilesOnScreen = [NSMutableArray array];
+        
         /* Setup your scene here */
         
         self.physicsWorld.gravity = CGVectorMake(0,0);
@@ -55,14 +73,32 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         [self addChild:backButton];
         
         //schedule enemies
-        SKAction *wait = [SKAction waitForDuration:1];
-        SKAction *callEnemies = [SKAction runBlock:^{
-            [self EnemiesAndClouds];
-        }];
+//        SKAction *wait = [SKAction waitForDuration:1];
+//        SKAction *callEnemies = [SKAction runBlock:^{
+//            [self EnemiesAndClouds];
+//        }];
+//        
+//        SKAction *updateEnimies = [SKAction sequence:@[wait,callEnemies]];
+//        [self runAction:[SKAction repeatActionForever:updateEnimies]];
         
-        SKAction *updateEnimies = [SKAction sequence:@[wait,callEnemies]];
-        [self runAction:[SKAction repeatActionForever:updateEnimies]];
+        
+        PPMissile *missile = [[PPMissile alloc] initMissileNode];
+        missile.position = CGPointMake(self.size.width / 2 + 200, self.size.height / 2 + 200);
+        missile.targetAirplane = _userAirplane;
+        missile.scale = 0.1;
+        [self addChild:missile];
+        [_arrayOfCurrentMissilesOnScreen addObject:missile];
+        
+        //adding the smokeTrail
+        NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"trail" ofType:@"sks"];
+        _smokeTrail = [NSKeyedUnarchiver unarchiveObjectWithFile:smokePath];
+        _smokeTrail.position = CGPointMake(_screenWidth/2, 15);
+        _smokeTrail.targetNode = self;
+        [self addChild:_smokeTrail];
+        
+        
 
+        
     }
     return self;
 }
@@ -82,10 +118,17 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         
     
     [_userAirplane updateOrientationVector];
-    
     [_userAirplane updateMove:_deltaTime];
-    
     [_userAirplane updateRotation:_deltaTime];
+    
+    
+    for (PPSpriteNode *missile in _arrayOfCurrentMissilesOnScreen) {
+        [missile updateMove:_deltaTime];
+        [missile updateRotation:_deltaTime];
+    }
+    
+    _smokeTrail.position = CGPointMake(_userAirplane.position.x ,_userAirplane.position.y-(_userAirplane.size.height/2));
+    
 }
 
 - (void)didBeginContact:(SKPhysicsContact *)contact
@@ -209,7 +252,7 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         CGPathMoveToPoint(cgpath,NULL, s.x, s.y);
         CGPathAddCurveToPoint(cgpath, NULL, cp1.x, cp1.y, cp2.x, cp2.y, e.x, e.y);
         
-        SKAction *planeDestroy = [SKAction followPath:cgpath asOffset:NO orientToPath:YES duration:15];
+        SKAction *planeDestroy = [SKAction followPath:cgpath asOffset:NO orientToPath:YES duration:26];
         
         
         enemy.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:enemy.size.width * 0.5]; // 1

@@ -9,15 +9,18 @@
 #import "PPSpriteNode.h"
 #import "SKSpriteNode+Additions.h"
 #import "PPMath.h"
+#import "PPConstants.h"
+
+#define kPPMainAirplaneRotationSpeed 1.5
+#define kPPMissileRotationSpeed 1.5
 
 #define SPEED 2
-#define ROTATION_SPEED 1.5
-
 
 @implementation PPSpriteNode
 
 @dynamic targetPoint;
 @synthesize spriteFinishedOrientationRotation = _spriteFinishedOrientationRotation;
+@synthesize health = _health;
 
 - (id)initWithImageNamed:(NSString *)name {
     self = [super initWithImageNamed:name];
@@ -81,7 +84,7 @@
     
     if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
         
-        [self setZRotation:self.zRotation + (ROTATION_SPEED * dt)];
+        [self setZRotation:self.zRotation + (kPPMainAirplaneRotationSpeed * dt)];
         
         
         CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
@@ -89,7 +92,7 @@
         
         if (!checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
             
-            [self setZRotation:self.zRotation - (ROTATION_SPEED * dt)];
+            [self setZRotation:self.zRotation - (kPPMainAirplaneRotationSpeed * dt)];
             
             _spriteFinishedOrientationRotation = YES;
             
@@ -102,11 +105,11 @@
         
     } else {
         
-        [self setZRotation:self.zRotation - (ROTATION_SPEED * dt)];
+        [self setZRotation:self.zRotation - (kPPMainAirplaneRotationSpeed * dt)];
         
         if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
             
-            [self setZRotation:self.zRotation + (ROTATION_SPEED * dt)];
+            [self setZRotation:self.zRotation + (kPPMainAirplaneRotationSpeed * dt)];
             
             _spriteFinishedOrientationRotation = YES;
             

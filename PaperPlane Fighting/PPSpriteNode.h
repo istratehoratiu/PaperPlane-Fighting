@@ -15,14 +15,16 @@
     // point to which the sprite point to. the target of the movement(touch) in case of the main airplane
     CGPoint _targetPoint;
     BOOL _spriteFinishedOrientationRotation;
+    
+    CGFloat _health;
 }
 
 @property (nonatomic, assign) CGPoint targetPoint;
 @property (nonatomic, assign) BOOL spriteFinishedOrientationRotation;
+@property (nonatomic, assign) CGFloat health;
 
 - (void)updateOrientationVector;
 - (void)updateMove:(CFTimeInterval)dt;
 - (void)updateRotation:(CFTimeInterval)dt;
-- (void)fireBullet;
 
 @end

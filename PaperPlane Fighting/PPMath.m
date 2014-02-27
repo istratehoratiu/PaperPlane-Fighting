@@ -47,3 +47,14 @@ CGFloat radiansToDegrees(CGFloat radians) {
 BOOL checkIfPointIsToTheLeftOfLineGivenByTwoPoints (CGPoint pointToCheck, CGPoint firstLinePoint, CGPoint secondLinePoint) {
     return ((secondLinePoint.x - firstLinePoint.x)*(pointToCheck.y - firstLinePoint.y) - (secondLinePoint.y - firstLinePoint.y)*(pointToCheck.x - firstLinePoint.x)) > 0;
 }
+
+CGPoint getIntersectionOfLinesGivenByPoints(CGPoint firstPointOnLine1, CGPoint secondPointOnLine1, CGPoint firstPointOnLine2, CGPoint secondPointOnLine2) {
+    
+    CGFloat x = ((firstPointOnLine1.x * secondPointOnLine1.y - firstPointOnLine1.y * secondPointOnLine1.x) * (firstPointOnLine2.x - secondPointOnLine2.x) - (firstPointOnLine1.x - secondPointOnLine1.x) * (firstPointOnLine2.x * secondPointOnLine2.y - firstPointOnLine2.y*secondPointOnLine2.x)) / (firstPointOnLine1.x - firstPointOnLine2.x) * (secondPointOnLine1.y - secondPointOnLine2.y) - (firstPointOnLine1.y - firstPointOnLine2.y) * (secondPointOnLine1.x - secondPointOnLine2.x);
+    
+    
+    CGFloat y = ((firstPointOnLine1.x * secondPointOnLine1.y - firstPointOnLine1.y * secondPointOnLine1.x) * (secondPointOnLine1.y - secondPointOnLine2.y) - (firstPointOnLine1.y - firstPointOnLine2.y) * (firstPointOnLine2.x * secondPointOnLine2.y - firstPointOnLine2.y*secondPointOnLine2.x)) / (firstPointOnLine1.x - firstPointOnLine2.x) * (secondPointOnLine1.y - secondPointOnLine2.y) - (firstPointOnLine1.y - firstPointOnLine2.y) * (secondPointOnLine1.x - secondPointOnLine2.x);
+    
+    return CGPointMake(x, y);
+}
+

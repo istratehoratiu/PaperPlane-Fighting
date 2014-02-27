@@ -10,10 +10,12 @@
 
 @class PPSpriteNode;
 @class PPMainAirplane;
+@class PPMainBase;
 
 @interface PPMyScene : SKScene {
     
     PPMainAirplane *_userAirplane;
+    PPMainBase *_mainBase;
     
     CFTimeInterval _lastUpdateTime;
     CFTimeInterval _deltaTime;
@@ -21,13 +23,18 @@
     CGRect _screenRect;
     CGFloat _screenHeight;
     CGFloat _screenWidth;
+    
+    NSMutableArray *_arrayOfCurrentMissilesOnScreen;
 }
 
 @property (nonatomic, retain) PPMainAirplane *userAirplane;
+@property (nonatomic, retain) PPMainBase *mainBase;
 @property (nonatomic, assign) CGRect screenRect;
 @property (nonatomic, assign) CGFloat screenHeight;
 @property (nonatomic, assign) CGFloat screenWidth;
 @property (nonatomic, assign) CFTimeInterval lastUpdateTime;
 @property (nonatomic, assign) CFTimeInterval deltaTime;
+@property (nonatomic, retain) NSMutableArray *arrayOfCurrentMissilesOnScreen;
+@property SKEmitterNode *smokeTrail;
 
 @end

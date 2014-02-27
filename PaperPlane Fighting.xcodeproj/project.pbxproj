@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB13C5A318BD59C3003587FD /* PPMainBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EB13C5A218BD59C3003587FD /* PPMainBase.m */; };
+		EB13C5A518BD5DB4003587FD /* hangar.png in Resources */ = {isa = PBXBuildFile; fileRef = EB13C5A418BD5DB4003587FD /* hangar.png */; };
 		EB1BC07F187F48970056D80D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1BC07E187F48970056D80D /* Foundation.framework */; };
 		EB1BC081187F48970056D80D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1BC080187F48970056D80D /* CoreGraphics.framework */; };
 		EB1BC083187F48970056D80D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1BC082187F48970056D80D /* UIKit.framework */; };
@@ -61,6 +63,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB13C5A118BD59C3003587FD /* PPMainBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMainBase.h; sourceTree = "<group>"; };
+		EB13C5A218BD59C3003587FD /* PPMainBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMainBase.m; sourceTree = "<group>"; };
+		EB13C5A418BD5DB4003587FD /* hangar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hangar.png; sourceTree = "<group>"; };
 		EB1BC07B187F48970056D80D /* PaperPlane Fighting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PaperPlane Fighting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB1BC07E187F48970056D80D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EB1BC080187F48970056D80D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -237,6 +242,8 @@
 				EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */,
 				EBC1BC9218A7D7EE006DF94A /* PPBomber.h */,
 				EBC1BC9318A7D7EE006DF94A /* PPBomber.m */,
+				EB13C5A118BD59C3003587FD /* PPMainBase.h */,
+				EB13C5A218BD59C3003587FD /* PPMainBase.m */,
 			);
 			name = Actors;
 			sourceTree = "<group>";
@@ -246,6 +253,7 @@
 			children = (
 				EB7D82E618A593FE006EC594 /* airPlanesBackground.png */,
 				EBD32CC718AEA2B800F8F1D1 /* SMOKE TRAIL.png */,
+				EB13C5A418BD5DB4003587FD /* hangar.png */,
 				EBD32CC518AE94BB00F8F1D1 /* missile.png */,
 				EB7D82D618A580ED006EC594 /* PLANE 1 N.png */,
 				EB7D82D718A580ED006EC594 /* PLANE 2 N.png */,
@@ -402,6 +410,7 @@
 				EBD32CCB18AEA30300F8F1D1 /* trail.sks in Resources */,
 				EB1BC09C187F48970056D80D /* Spaceship.png in Resources */,
 				EB29AF3C18A43CA400A75689 /* B 2.png in Resources */,
+				EB13C5A518BD5DB4003587FD /* hangar.png in Resources */,
 				EB1BC094187F48970056D80D /* Main.storyboard in Resources */,
 				EB7D82E418A580ED006EC594 /* PLANE PROPELLER 1.png in Resources */,
 				EBD32CC818AEA2B800F8F1D1 /* SMOKE TRAIL.png in Resources */,
@@ -435,6 +444,7 @@
 				EB1BC09A187F48970056D80D /* PPMyScene.m in Sources */,
 				EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */,
 				EBC1BC8E18A7D7CA006DF94A /* PPMissile.m in Sources */,
+				EB13C5A318BD59C3003587FD /* PPMainBase.m in Sources */,
 				EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */,
 				EBC1BC9118A7D7E0006DF94A /* PPHunterAirplane.m in Sources */,
 				EB1BC08D187F48970056D80D /* main.m in Sources */,

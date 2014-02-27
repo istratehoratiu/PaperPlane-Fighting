@@ -9,10 +9,13 @@
 #import "PPSpriteNode.h"
 
 @interface PPMissile : PPSpriteNode {
-    SKSpriteNode *_smokeTrail;
+    SKEmitterNode *_smokeTrail;
+    // A pointer to the airplane that the missile is targeting.
+    PPSpriteNode *_targetAirplane;
 }
 
-@property (nonatomic, retain) SKSpriteNode *smokeTrail;
+@property (nonatomic, retain) SKEmitterNode *smokeTrail;
+@property (nonatomic, strong) PPSpriteNode *targetAirplane;
 
 - (id)initMissileNode;
 
