@@ -7,3 +7,7 @@
 //
 
 #import "PPConstants.h"
+
+CGFloat kPPSpeedOfHunterAirplane = .75;
+CGFloat kPPRotationSpeedOfHunterAirplane = .35;
+CGFloat kPPRateOfFireForMainAirplane = 0.5;

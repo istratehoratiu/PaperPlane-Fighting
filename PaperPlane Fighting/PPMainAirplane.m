@@ -9,6 +9,7 @@
 #import "PPMainAirplane.h"
 #import "SKSpriteNode+Additions.h"
 #import "PPMath.h"
+#import "PPConstants.h"
 
 static const uint32_t projectileCategory     =  0x1 << 0;
 static const uint32_t monsterCategory        =  0x1 << 1;
@@ -16,6 +17,10 @@ static const uint32_t monsterCategory        =  0x1 << 1;
 @implementation PPMainAirplane
 
 - (void)fireBullet {
+    
+    if (!_shouldFireBullets) {
+        return;
+    }
     
     SKSpriteNode *projectile = [SKSpriteNode spriteNodeWithImageNamed:@"B 2.png"];
     
@@ -56,6 +61,8 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     //SKAction * actionMove = [SKAction moveTo:shootAmount duration:realMoveDuration];
     SKAction * actionMoveDone = [SKAction removeFromParent];
     [projectile runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
+    
+    [self performSelector:@selector(fireBullet) withObject:nil afterDelay:.2];
 }
 
 @end

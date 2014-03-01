@@ -8,3 +8,6 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+extern CGFloat kPPSpeedOfHunterAirplane;
+extern CGFloat kPPRotationSpeedOfHunterAirplane;
+extern CGFloat kPPRateOfFireForMainAirplane;

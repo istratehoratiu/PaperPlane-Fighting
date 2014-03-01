@@ -8,6 +8,15 @@
 
 #import "PPSpriteNode.h"
 
-@interface PPHunterAirplane : PPSpriteNode
+@interface PPHunterAirplane : PPSpriteNode {
+    // A pointer to the airplane that the missile is targeting.
+    PPSpriteNode *_targetAirplane;
+    BOOL _shouldFire;
+}
+
+@property (nonatomic, assign) BOOL shouldFire;
+@property (nonatomic, strong) PPSpriteNode *targetAirplane;
+
+- (id)initHunterAirPlane;
 
 @end

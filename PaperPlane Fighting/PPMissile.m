@@ -54,7 +54,7 @@
     
     if (![_smokeTrail parent]) {
         [self.parent addChild:_smokeTrail];
-         _smokeTrail.targetNode = self.parent;
+        _smokeTrail.targetNode = self.parent;
     }
     _smokeTrail.position = actualTarget;
     

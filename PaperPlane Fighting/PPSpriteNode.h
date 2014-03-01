@@ -16,9 +16,12 @@
     CGPoint _targetPoint;
     BOOL _spriteFinishedOrientationRotation;
     
+    BOOL _shouldFireBullets;
+    
     CGFloat _health;
 }
 
+@property (nonatomic, assign) BOOL shouldFireBullets;
 @property (nonatomic, assign) CGPoint targetPoint;
 @property (nonatomic, assign) BOOL spriteFinishedOrientationRotation;
 @property (nonatomic, assign) CGFloat health;
@@ -26,5 +29,6 @@
 - (void)updateOrientationVector;
 - (void)updateMove:(CFTimeInterval)dt;
 - (void)updateRotation:(CFTimeInterval)dt;
+- (CGPoint)returnFireRange;
 
 @end

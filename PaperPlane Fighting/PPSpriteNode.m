@@ -21,6 +21,8 @@
 @dynamic targetPoint;
 @synthesize spriteFinishedOrientationRotation = _spriteFinishedOrientationRotation;
 @synthesize health = _health;
+@synthesize shouldFireBullets = _shouldFireBullets;
+
 
 - (id)initWithImageNamed:(NSString *)name {
     self = [super initWithImageNamed:name];
@@ -37,6 +39,8 @@
         SKAction *spin = [SKAction animateWithTextures:@[propeller1,propeller2] timePerFrame:0.1];
         SKAction *spinForever = [SKAction repeatActionForever:spin];
         [_propeller runAction:spinForever];
+        
+        _shouldFireBullets = NO;
         
         [self addChild:_propeller];
     }
@@ -160,11 +164,11 @@
         CGPathMoveToPoint(thePath, NULL, 0.0, 0.0);
         CGPathAddLineToPoint(thePath,
                              NULL,
-                             self.size.width,
+                             self.size.width * 30,
                              0.0);
         spriteOrientationLine.path = thePath;
         // Uncommnet if orientation vectors are needed.
-        //[self addChild:spriteOrientationLine];
+        [self addChild:spriteOrientationLine];
     }
     
     orientationNode.path = [self getPathForSpriteOrientation];
@@ -172,6 +176,9 @@
 
 }
 
+- (CGPoint)returnFireRange {
+    return [self.parent convertPoint:CGPointMake(0.0, self.size.width *30) fromNode:self];
+}
 
 // 1. Calculate the cosine of the angle and multiply this by the distance.
 // 2. Calculate the sine of the angle and multiply this by the distance.

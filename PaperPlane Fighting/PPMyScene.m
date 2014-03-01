@@ -15,6 +15,7 @@
 #import "PPMainAirplane.h"
 #import "PPMissile.h"
 #import "PPMainBase.h"  
+#import "PPHunterAirplane.h"
 
 
 #define MAGNITUDE 100.0
@@ -28,6 +29,8 @@ static const uint32_t monsterCategory        =  0x1 << 1;
 
 
 @synthesize arrayOfCurrentMissilesOnScreen = _arrayOfCurrentMissilesOnScreen;
+@synthesize hunterAirplane = _hunterAirplane;
+
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
@@ -70,7 +73,7 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         [backButton.title setFontName:@"Chalkduster"];
         [backButton.title setFontSize:20.0];
         [backButton setTouchUpInsideTarget:_userAirplane action:@selector(fireBullet)];
-        [self addChild:backButton];
+        //[self addChild:backButton];
         
         //schedule enemies
 //        SKAction *wait = [SKAction waitForDuration:1];
@@ -88,6 +91,8 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         missile.scale = 0.1;
         [self addChild:missile];
         [_arrayOfCurrentMissilesOnScreen addObject:missile];
+        [missile updateOrientationVector];
+        
         
         //adding the smokeTrail
         NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"trail" ofType:@"sks"];
@@ -97,7 +102,12 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         [self addChild:_smokeTrail];
         
         
-
+        _hunterAirplane = [[PPHunterAirplane alloc] initHunterAirPlane];
+        _hunterAirplane.position = CGPointMake(self.size.width, self.size.height);
+        _hunterAirplane.scale = 0.2;
+        _hunterAirplane.targetAirplane = _userAirplane;
+        [self addChild:_hunterAirplane];
+        [_hunterAirplane updateOrientationVector];
         
     }
     return self;
@@ -121,10 +131,16 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     [_userAirplane updateMove:_deltaTime];
     [_userAirplane updateRotation:_deltaTime];
     
+    [_hunterAirplane updateRotation:_deltaTime];
+    [_hunterAirplane updateMove:_deltaTime];
+    [_hunterAirplane updateOrientationVector];
+    
     
     for (PPSpriteNode *missile in _arrayOfCurrentMissilesOnScreen) {
         [missile updateMove:_deltaTime];
         [missile updateRotation:_deltaTime];
+        [missile setTargetPoint:_userAirplane.position];
+        [missile updateOrientationVector];
     }
     
     _smokeTrail.position = CGPointMake(_userAirplane.position.x ,_userAirplane.position.y-(_userAirplane.size.height/2));
