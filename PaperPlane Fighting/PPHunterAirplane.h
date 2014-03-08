@@ -18,5 +18,7 @@
 @property (nonatomic, strong) PPSpriteNode *targetAirplane;
 
 - (id)initHunterAirPlane;
+- (void)fireBullet;
+- (void)stopFiring;
 
 @end

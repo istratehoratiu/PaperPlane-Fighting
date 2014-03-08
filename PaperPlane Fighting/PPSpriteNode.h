@@ -7,8 +7,10 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "PPConstants.h"
 
 @interface PPSpriteNode : SKSpriteNode {
+    SKSpriteNode *_fireRange;
     SKShapeNode *orientationNode;
     SKShapeNode *northLineNode;
     SKShapeNode *spriteOrientationLine;
@@ -16,12 +18,16 @@
     CGPoint _targetPoint;
     BOOL _spriteFinishedOrientationRotation;
     
-    BOOL _shouldFireBullets;
+    BOOL _isFiringBullets;
+    
+    PPFlightDirection _flightDirection;
     
     CGFloat _health;
 }
 
-@property (nonatomic, assign) BOOL shouldFireBullets;
+@property (nonatomic, assign) PPFlightDirection flightDirection;
+@property (nonatomic, retain) SKSpriteNode *fireRange;
+@property (nonatomic, assign) BOOL isFiringBullets;
 @property (nonatomic, assign) CGPoint targetPoint;
 @property (nonatomic, assign) BOOL spriteFinishedOrientationRotation;
 @property (nonatomic, assign) CGFloat health;

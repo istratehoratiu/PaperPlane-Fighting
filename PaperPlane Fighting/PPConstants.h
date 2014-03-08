@@ -8,6 +8,19 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+static const uint32_t projectileCategory                =  0;
+static const uint32_t enemyAirplaneCategory             =  1;
+static const uint32_t userAirplaneFiringRangeCategory   =  2;
+static const uint32_t enemyAirplaneFiringRangeCategory  =  3;
+static const uint32_t userAirplaneCategory              =  4;
+static const uint32_t missileCategory                   =  5;
+
 extern CGFloat kPPSpeedOfHunterAirplane;
 extern CGFloat kPPRotationSpeedOfHunterAirplane;
 extern CGFloat kPPRateOfFireForMainAirplane;
+
+typedef enum {
+    kPPTurnLeft,
+    kPPTurnRight,
+    kPPFlyStraight
+} PPFlightDirection;

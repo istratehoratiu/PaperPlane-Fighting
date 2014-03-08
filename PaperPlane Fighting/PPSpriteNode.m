@@ -19,30 +19,18 @@
 @implementation PPSpriteNode
 
 @dynamic targetPoint;
+@synthesize flightDirection = _flightDirection;
 @synthesize spriteFinishedOrientationRotation = _spriteFinishedOrientationRotation;
 @synthesize health = _health;
-@synthesize shouldFireBullets = _shouldFireBullets;
-
+@synthesize isFiringBullets = _isFiringBullets;
+@synthesize fireRange = _fireRange;
 
 - (id)initWithImageNamed:(NSString *)name {
+    
     self = [super initWithImageNamed:name];
     
     if (self) {
-        
-        SKSpriteNode *_propeller = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE PROPELLER 1.png"];
-        _propeller.scale = 0.2;
-        _propeller.position = CGPointMake(self.position.x + 45, self.position.y );
-        
-        SKTexture *propeller1 = [SKTexture textureWithImageNamed:@"PLANE PROPELLER 1.png"];
-        SKTexture *propeller2 = [SKTexture textureWithImageNamed:@"PLANE PROPELLER 2.png"];
-        
-        SKAction *spin = [SKAction animateWithTextures:@[propeller1,propeller2] timePerFrame:0.1];
-        SKAction *spinForever = [SKAction repeatActionForever:spin];
-        [_propeller runAction:spinForever];
-        
-        _shouldFireBullets = NO;
-        
-        [self addChild:_propeller];
+        _flightDirection = kPPFlyStraight;
     }
     
     return self;
@@ -58,71 +46,12 @@
 }
 
 
-
 - (void)updateMove:(CFTimeInterval)dt {
 
-    CGPoint destinationPoint = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
-    
-    CGPoint offset = skPointsSubtract(destinationPoint, self.position);
- 
-    CGPoint targetVector =  normalizeVector(offset);
-    // 5
-    float POINTS_PER_SECOND = 100;
-    CGPoint targetPerSecond = skPointsMultiply(targetVector, POINTS_PER_SECOND);
-    // 6
-    //CGPoint actualTarget = ccpAdd(self.position, ccpMult(targetPerSecond, dt));
-    CGPoint actualTarget = skPointsAdd(self.position, skPointsMultiply(targetPerSecond, dt));
-
-    self.position = actualTarget;
-    
 }
 
 - (void)updateRotation:(CFTimeInterval)dt {
-    
-    if (_spriteFinishedOrientationRotation) {
-        return;
-    }
-    
-    CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
-    CGPoint lineEnd = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
-    
-    if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
-        
-        [self setZRotation:self.zRotation + (kPPMainAirplaneRotationSpeed * dt)];
-        
-        
-        CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
-        CGPoint lineEnd = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
-        
-        if (!checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
-            
-            [self setZRotation:self.zRotation - (kPPMainAirplaneRotationSpeed * dt)];
-            
-            _spriteFinishedOrientationRotation = YES;
-            
-            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 N.png"];
-            
-        } else {
-            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 L.png"];
-        }
-        
-        
-    } else {
-        
-        [self setZRotation:self.zRotation - (kPPMainAirplaneRotationSpeed * dt)];
-        
-        if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetPoint, lineSource, lineEnd)) {
-            
-            [self setZRotation:self.zRotation + (kPPMainAirplaneRotationSpeed * dt)];
-            
-            _spriteFinishedOrientationRotation = YES;
-            
-            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 N.png"];
-            
-        } else {
-            self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 R.png"];
-        }
-    }
+
 }
 
 - (void)updateOrientationVector {
@@ -168,7 +97,7 @@
                              0.0);
         spriteOrientationLine.path = thePath;
         // Uncommnet if orientation vectors are needed.
-        [self addChild:spriteOrientationLine];
+        //[self addChild:spriteOrientationLine];
     }
     
     orientationNode.path = [self getPathForSpriteOrientation];

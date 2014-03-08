@@ -16,14 +16,13 @@
 #import "PPMissile.h"
 #import "PPMainBase.h"  
 #import "PPHunterAirplane.h"
+#import "PPConstants.h"
+
 
 
 #define MAGNITUDE 100.0
 // Aceasta valoate trebuie sa ia o valoare de la 0 la 1. 0 fiind cea mai peformanta
 #define TURN_ANGLE_PERFORMANCE 1
-
-static const uint32_t projectileCategory     =  0x1 << 0;
-static const uint32_t monsterCategory        =  0x1 << 1;
 
 @implementation PPMyScene
 
@@ -59,9 +58,14 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         _screenWidth = _screenRect.size.width;
         
         // Main Actor
-        _userAirplane = [[PPMainAirplane alloc] initWithImageNamed:@"PLANE 8 N"];
+        _userAirplane = [[PPMainAirplane alloc] initMainAirplane];
         _userAirplane.scale = 0.2;
         _userAirplane.position = CGPointMake(self.size.width / 2, self.size.height / 2);
+        _userAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_userAirplane.size.width * 0.5]; // 1
+        _userAirplane.physicsBody.dynamic = YES; // 2
+        _userAirplane.physicsBody.categoryBitMask = userAirplaneCategory; // 3
+        _userAirplane.physicsBody.contactTestBitMask = projectileCategory | missileCategory | enemyAirplaneCategory; // 4
+        _userAirplane.physicsBody.collisionBitMask = 0; // 5
         
         [self addChild:_userAirplane];
         
@@ -103,12 +107,18 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         
         
         _hunterAirplane = [[PPHunterAirplane alloc] initHunterAirPlane];
-        _hunterAirplane.position = CGPointMake(self.size.width, self.size.height);
+        _hunterAirplane.position = CGPointMake(self.size.width, 0.0);
         _hunterAirplane.scale = 0.2;
         _hunterAirplane.targetAirplane = _userAirplane;
+        
+        _hunterAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_hunterAirplane.size.width * 0.5]; // 1
+        _hunterAirplane.physicsBody.dynamic = YES; // 2
+        _hunterAirplane.physicsBody.categoryBitMask = enemyAirplaneCategory; // 3
+        _hunterAirplane.physicsBody.contactTestBitMask = projectileCategory | userAirplaneFiringRangeCategory | missileCategory; // 4
+        _hunterAirplane.physicsBody.collisionBitMask = 0; // 5
+        
         [self addChild:_hunterAirplane];
         [_hunterAirplane updateOrientationVector];
-        
     }
     return self;
 }
@@ -150,24 +160,48 @@ static const uint32_t monsterCategory        =  0x1 << 1;
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
     // 1
-    SKPhysicsBody *firstBody, *secondBody;
+    SKSpriteNode *firstNode, *secondNode;
     
-    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    firstNode = (SKSpriteNode *)contact.bodyA.node;
+    secondNode = (SKSpriteNode *) contact.bodyB.node;
+    
+    if (((contact.bodyA.categoryBitMask == userAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask == enemyAirplaneCategory) && (contact.bodyB.categoryBitMask == userAirplaneFiringRangeCategory)))
     {
-        firstBody = contact.bodyA;
-        secondBody = contact.bodyB;
-    }
-    else
-    {
-        firstBody = contact.bodyB;
-        secondBody = contact.bodyA;
+        NSLog(@" %d /// %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask);
+        if (!_userAirplane.isFiringBullets) {
+            [_userAirplane fireBullet];
+        }
     }
     
-    // 2
-    if ((firstBody.categoryBitMask & projectileCategory) != 0 &&
-        (secondBody.categoryBitMask & monsterCategory) != 0)
+    if (((contact.bodyA.categoryBitMask == enemyAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask == userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneFiringRangeCategory)))
     {
-        [self projectile:(SKSpriteNode *) firstBody.node didCollideWithMonster:(SKSpriteNode *) secondBody.node];
+        NSLog(@" %d --- %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask == enemyAirplaneCategory);
+        if (!_hunterAirplane.isFiringBullets) {
+            [_hunterAirplane fireBullet];
+        }
+    }
+}
+
+- (void)didEndContact:(SKPhysicsContact *)contact
+{
+    // 1
+    SKSpriteNode *firstNode, *secondNode;
+    
+    firstNode = (SKSpriteNode *)contact.bodyA.node;
+    secondNode = (SKSpriteNode *) contact.bodyB.node;
+    
+    if (((contact.bodyA.categoryBitMask == userAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask == enemyAirplaneCategory) && (contact.bodyB.categoryBitMask == userAirplaneFiringRangeCategory)))
+    {
+        [_userAirplane stopFiring];
+    }
+    
+    if (((contact.bodyA.categoryBitMask == enemyAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask == userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneFiringRangeCategory)))
+    {
+        [_hunterAirplane stopFiring];
     }
 }
 
@@ -184,7 +218,23 @@ static const uint32_t monsterCategory        =  0x1 << 1;
             
         CGPoint location = [touch locationInNode:self];
         
-        [_userAirplane setTargetPoint:location];
+        if (location.x < self.size.width * 0.5) {
+            _userAirplane.flightDirection = kPPTurnLeft;
+        } else {
+            _userAirplane.flightDirection = kPPTurnRight;
+        }
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    for (UITouch *touch in touches) {
+        
+    }
+}
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    for (UITouch *touch in touches) {
+        
+        _userAirplane.flightDirection = kPPFlyStraight;
     }
 }
 
@@ -224,68 +274,6 @@ static const uint32_t monsterCategory        =  0x1 << 1;
 
 - (CGFloat)radiansToDegrees:(CGFloat)radians {
     return radians * (180.0f / M_PI);
-}
-
--(void)EnemiesAndClouds{
-    //not always come
-    int GoOrNot = [self getRandomNumberBetween:0 to:1];
-    
-    if(GoOrNot == 1){
-        
-        SKSpriteNode *enemy;
-        
-        int randomEnemy = [self getRandomNumberBetween:0 to:1];
-        if(randomEnemy == 0)
-            enemy = [[PPMissile alloc] initMissileNode];
-        else
-            enemy = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE 2 N.png"];
-        
-        
-        enemy.scale = 0.2;
-        
-        enemy.position = CGPointMake(_screenRect.size.width/2, _screenRect.size.height/2);
-        enemy.zPosition = 1;
-        
-        
-        CGMutablePathRef cgpath = CGPathCreateMutable();
-        
-        //random values
-        float xStart = [self getRandomNumberBetween:0+enemy.size.width to:_screenRect.size.width-enemy.size.width ];
-        float xEnd = [self getRandomNumberBetween:0+enemy.size.width to:_screenRect.size.width-enemy.size.width ];
-        
-        //ControlPoint1
-        float cp1X = [self getRandomNumberBetween:0+enemy.size.width to:_screenRect.size.width-enemy.size.width ];
-        float cp1Y = [self getRandomNumberBetween:0+enemy.size.width to:_screenRect.size.width-enemy.size.height ];
-        
-        //ControlPoint2
-        float cp2X = [self getRandomNumberBetween:0+enemy.size.width to:_screenRect.size.width-enemy.size.width ];
-        float cp2Y = [self getRandomNumberBetween:0 to:cp1Y];
-        
-        CGPoint s = CGPointMake(xStart, 1024.0);
-        CGPoint e = CGPointMake(xEnd, -100.0);
-        CGPoint cp1 = CGPointMake(cp1X, cp1Y);
-        CGPoint cp2 = CGPointMake(cp2X, cp2Y);
-        CGPathMoveToPoint(cgpath,NULL, s.x, s.y);
-        CGPathAddCurveToPoint(cgpath, NULL, cp1.x, cp1.y, cp2.x, cp2.y, e.x, e.y);
-        
-        SKAction *planeDestroy = [SKAction followPath:cgpath asOffset:NO orientToPath:YES duration:26];
-        
-        
-        enemy.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:enemy.size.width * 0.5]; // 1
-        enemy.physicsBody.dynamic = YES; // 2
-        enemy.physicsBody.categoryBitMask = monsterCategory; // 3
-        enemy.physicsBody.contactTestBitMask = projectileCategory; // 4
-        enemy.physicsBody.collisionBitMask = 0; // 5
-        
-        [self addChild:enemy];
-        
-        SKAction *remove = [SKAction removeFromParent];
-        [enemy runAction:[SKAction sequence:@[planeDestroy,remove]]];
-        
-        CGPathRelease(cgpath);
-        
-    }
-    
 }
 
 -(int)getRandomNumberBetween:(int)from to:(int)to {
