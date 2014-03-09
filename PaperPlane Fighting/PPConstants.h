@@ -8,7 +8,12 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+#define kPPUserAirplaneHealth 100
+#define kPPHunterAirplaneHealth 50
+#define kPPBomberHealth 300
+
 static const uint32_t projectileCategory                =  0;
+static const uint32_t enemyProjectileCategory           =  6;
 static const uint32_t enemyAirplaneCategory             =  1;
 static const uint32_t userAirplaneFiringRangeCategory   =  2;
 static const uint32_t enemyAirplaneFiringRangeCategory  =  3;

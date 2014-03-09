@@ -17,8 +17,7 @@
 #import "PPMainBase.h"  
 #import "PPHunterAirplane.h"
 #import "PPConstants.h"
-
-
+#import "PPPositionIndicator.h"
 
 #define MAGNITUDE 100.0
 // Aceasta valoate trebuie sa ia o valoare de la 0 la 1. 0 fiind cea mai peformanta
@@ -26,19 +25,27 @@
 
 @implementation PPMyScene
 
-
-@synthesize arrayOfCurrentMissilesOnScreen = _arrayOfCurrentMissilesOnScreen;
-@synthesize hunterAirplane = _hunterAirplane;
+@synthesize arrayOfEnemyBombers             = _arrayOfEnemyBombers;
+@synthesize arrayOfEnemyHunterAirplanes     = _arrayOfEnemyHunterAirplanes;
+@synthesize arrayOfCurrentMissilesOnScreen  = _arrayOfCurrentMissilesOnScreen;
+@synthesize positionIndicator               = _positionIndicator;
 
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         
-        
         SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"airPlanesBackground"];
         background.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
         background.blendMode = SKBlendModeReplace;
         [self addChild:background];
+        
+        SKButtonNode *backButton = [[SKButtonNode alloc] initWithImageNamedNormal:@"restart.png" selected:@"restart_down.png"];
+        [backButton setPosition:CGPointMake(100, 100)];
+        [backButton.title setFontName:@"Chalkduster"];
+        [backButton.title setFontSize:20.0];
+        [backButton setTouchUpInsideTarget:self action:@selector(restartScene)];
+        [self addChild:backButton];
+        
         
         _mainBase = [[PPMainBase alloc] initMainBaseNode];
         _mainBase.scale = 0.2;
@@ -46,6 +53,8 @@
         [self addChild:_mainBase];
         
         self.arrayOfCurrentMissilesOnScreen = [NSMutableArray array];
+        self.arrayOfEnemyHunterAirplanes = [NSMutableArray array];
+        self.arrayOfEnemyBombers = [NSMutableArray array];
         
         /* Setup your scene here */
         
@@ -70,14 +79,6 @@
         [self addChild:_userAirplane];
         
         [_userAirplane updateOrientationVector];
-        
-        SKButtonNode *backButton = [[SKButtonNode alloc] initWithImageNamedNormal:@"buttonNormal" selected:@"buttonSelected"];
-        [backButton setPosition:CGPointMake(100, 100)];
-        [backButton.title setText:@"Button"];
-        [backButton.title setFontName:@"Chalkduster"];
-        [backButton.title setFontSize:20.0];
-        [backButton setTouchUpInsideTarget:_userAirplane action:@selector(fireBullet)];
-        //[self addChild:backButton];
         
         //schedule enemies
 //        SKAction *wait = [SKAction waitForDuration:1];
@@ -105,26 +106,15 @@
         _smokeTrail.targetNode = self;
         [self addChild:_smokeTrail];
         
+        [self addEnemyAtRandomLocation];
         
-        _hunterAirplane = [[PPHunterAirplane alloc] initHunterAirPlane];
-        _hunterAirplane.position = CGPointMake(self.size.width, 0.0);
-        _hunterAirplane.scale = 0.2;
-        _hunterAirplane.targetAirplane = _userAirplane;
-        
-        _hunterAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_hunterAirplane.size.width * 0.5]; // 1
-        _hunterAirplane.physicsBody.dynamic = YES; // 2
-        _hunterAirplane.physicsBody.categoryBitMask = enemyAirplaneCategory; // 3
-        _hunterAirplane.physicsBody.contactTestBitMask = projectileCategory | userAirplaneFiringRangeCategory | missileCategory; // 4
-        _hunterAirplane.physicsBody.collisionBitMask = 0; // 5
-        
-        [self addChild:_hunterAirplane];
-        [_hunterAirplane updateOrientationVector];
+        _positionIndicator = [[PPPositionIndicator alloc] initPositionIndicatorForAircraft:_userAirplane];
     }
     return self;
 }
 
-- (void)fireButtonPreset {
-
+- (void)restartScene {
+    _userAirplane.position = CGPointMake(self.size.width / 2, self.size.height / 2);
 }
 
 -(void)update:(CFTimeInterval)currentTime {
@@ -141,10 +131,13 @@
     [_userAirplane updateMove:_deltaTime];
     [_userAirplane updateRotation:_deltaTime];
     
-    [_hunterAirplane updateRotation:_deltaTime];
-    [_hunterAirplane updateMove:_deltaTime];
-    [_hunterAirplane updateOrientationVector];
+    [_positionIndicator updatePositionIndicatorForMainAircraft];
     
+    for (PPSpriteNode *hunterAirplane in _arrayOfEnemyHunterAirplanes) {
+        [hunterAirplane updateMove:_deltaTime];
+        [hunterAirplane updateRotation:_deltaTime];
+        [hunterAirplane updateOrientationVector];
+    }
     
     for (PPSpriteNode *missile in _arrayOfCurrentMissilesOnScreen) {
         [missile updateMove:_deltaTime];
@@ -165,21 +158,57 @@
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
     
+//    static const uint32_t projectileCategory                =  0;
+//    static const uint32_t enemyAirplaneCategory             =  1;
+//    static const uint32_t userAirplaneFiringRangeCategory   =  2;
+//    static const uint32_t enemyAirplaneFiringRangeCategory  =  3;
+//    static const uint32_t userAirplaneCategory              =  4;
+//    static const uint32_t missileCategory                   =  5;
+    
+    NSLog(@" %d --- %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask);
+    
+    if ((contact.bodyA.categoryBitMask ==  projectileCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneCategory)) {
+        // Remove bullet from scene.
+        [firstNode removeFromParent];
+        
+        [(PPHunterAirplane *)secondNode setHealth:[(PPHunterAirplane *)secondNode health] - 10];
+        
+        if ([(PPHunterAirplane *)secondNode health] <= 0) {
+            [self AddExplosionEmitter:secondNode.position];
+            [_userAirplane stopFiring];
+            [self addEnemyAtRandomLocation];
+        }
+    } else if ((contact.bodyA.categoryBitMask == enemyAirplaneCategory) && (contact.bodyB.categoryBitMask == projectileCategory)) {
+       
+        // Remove bullet from scene.
+        [secondNode removeFromParent];
+        
+        [(PPHunterAirplane *)firstNode setHealth:[(PPHunterAirplane *)firstNode health] - 10];
+        
+        if ([(PPHunterAirplane *)firstNode health] <= 0) {
+            [self AddExplosionEmitter:firstNode.position];
+            [_userAirplane stopFiring];
+            [self addEnemyAtRandomLocation];
+        }
+    }
+    
     if (((contact.bodyA.categoryBitMask == userAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneCategory)) ||
         ((contact.bodyA.categoryBitMask == enemyAirplaneCategory) && (contact.bodyB.categoryBitMask == userAirplaneFiringRangeCategory)))
     {
-        NSLog(@" %d /// %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask);
         if (!_userAirplane.isFiringBullets) {
             [_userAirplane fireBullet];
         }
     }
     
-    if (((contact.bodyA.categoryBitMask == enemyAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
-        ((contact.bodyA.categoryBitMask == userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneFiringRangeCategory)))
-    {
-        NSLog(@" %d --- %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask == enemyAirplaneCategory);
-        if (!_hunterAirplane.isFiringBullets) {
-            [_hunterAirplane fireBullet];
+    if ((contact.bodyA.categoryBitMask == enemyAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) {
+        if (![(PPHunterAirplane *)firstNode.parent isFiringBullets]) {
+            [(PPHunterAirplane *)firstNode.parent fireBullet];
+        }
+    }
+    
+    if ((contact.bodyA.categoryBitMask == userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneFiringRangeCategory)) {
+        if (![(PPHunterAirplane *)secondNode.parent isFiringBullets]) {
+            [(PPHunterAirplane *)secondNode.parent fireBullet];
         }
     }
 }
@@ -198,10 +227,12 @@
         [_userAirplane stopFiring];
     }
     
-    if (((contact.bodyA.categoryBitMask == enemyAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
-        ((contact.bodyA.categoryBitMask == userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneFiringRangeCategory)))
-    {
-        [_hunterAirplane stopFiring];
+    if ((contact.bodyA.categoryBitMask == enemyAirplaneFiringRangeCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) {
+        [(PPHunterAirplane *)firstNode.parent stopFiring];
+    }
+    
+    if ((contact.bodyA.categoryBitMask == userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneFiringRangeCategory)) {
+        [(PPHunterAirplane *)secondNode.parent stopFiring];
     }
 }
 
@@ -236,6 +267,47 @@
         
         _userAirplane.flightDirection = kPPFlyStraight;
     }
+}
+
+#pragma mark -
+#pragma mark Position Indicator Methods
+
+
+
+#pragma mark -
+#pragma mark Helper Methods
+
+- (void)addEnemyAtRandomLocation {
+    PPHunterAirplane *enemyAirplane = [[PPHunterAirplane alloc] initHunterAirPlane];
+    
+    
+    
+    enemyAirplane.position = CGPointMake([self getRandomNumberBetween:0 to:self.size.width], [self getRandomNumberBetween:0 to:745]);
+    
+    NSLog(@">>> Add Enemy at %f:%f", enemyAirplane.position.x, enemyAirplane.position.y);
+    
+    enemyAirplane.scale = 0.2;
+    enemyAirplane.targetAirplane = _userAirplane;
+    
+    enemyAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:enemyAirplane.size.width * 0.5]; // 1
+    enemyAirplane.physicsBody.dynamic = YES; // 2
+    enemyAirplane.physicsBody.categoryBitMask = enemyAirplaneCategory; // 3
+    enemyAirplane.physicsBody.contactTestBitMask = projectileCategory | userAirplaneFiringRangeCategory | missileCategory; // 4
+    enemyAirplane.physicsBody.collisionBitMask = 0; // 5
+    
+    [self addChild:enemyAirplane];
+    [enemyAirplane updateOrientationVector];
+    [_arrayOfEnemyHunterAirplanes addObject:enemyAirplane];
+}
+
+- (void)AddExplosionEmitter:(CGPoint)position {
+    NSString *explosionPath = [[NSBundle mainBundle] pathForResource:@"explosion" ofType:@"sks"];
+    SKEmitterNode *explosionEmitter = [NSKeyedUnarchiver unarchiveObjectWithFile:explosionPath];
+    //explosionPath.position = CGPointMake(_screenWidth/2, 15);
+    explosionEmitter.targetNode = self;
+    explosionEmitter.numParticlesToEmit = 100;
+    explosionEmitter.position = position;
+    [self addChild:explosionEmitter];
 }
 
 - (void)calculateForCGPath:(CGMutablePathRef)cgPath controlPointsGivenStartingPoint:(CGPoint)startingPoint andEndPoint:(CGPoint) endPoint {

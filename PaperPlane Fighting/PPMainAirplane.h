@@ -12,8 +12,7 @@
 
 }
 - (id)initMainAirplane ;
-- (void)fireBullet;
-- (void)stopFiring;
+
 - (CGPoint)currentDirection;
 
 @end

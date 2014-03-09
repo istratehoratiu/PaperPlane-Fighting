@@ -18,6 +18,23 @@
 - (id)initHunterAirPlane {
     
     self = [super initWithImageNamed:@"PLANE 1 N.png"];
+    
+    if (self) {
+        self.health = kPPHunterAirplaneHealth;
+        
+        
+        _fireRange = [[SKSpriteNode alloc] init];
+        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(300, 0.0)]; // 1
+        //spriteOrientationLine.physicsBody.n
+        _fireRange.physicsBody.dynamic = YES; // 2
+        _fireRange.physicsBody.categoryBitMask = enemyAirplaneFiringRangeCategory; // 3
+        _fireRange.physicsBody.usesPreciseCollisionDetection = YES;
+        _fireRange.physicsBody.contactTestBitMask = userAirplaneCategory; // 4
+        _fireRange.physicsBody.collisionBitMask = 0; // 5
+        
+        [self addChild:_fireRange];
+    }
+    
     return self;
 }
 
@@ -89,8 +106,8 @@
     
     projectile.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:projectile.size.width * 0.5];
     projectile.physicsBody.dynamic = YES;
-    projectile.physicsBody.categoryBitMask = projectileCategory;
-    projectile.physicsBody.contactTestBitMask = enemyAirplaneCategory;
+    projectile.physicsBody.categoryBitMask = enemyProjectileCategory;
+    projectile.physicsBody.contactTestBitMask = userAirplaneCategory;
     projectile.physicsBody.collisionBitMask = 0;
     projectile.physicsBody.usesPreciseCollisionDetection = YES;
     

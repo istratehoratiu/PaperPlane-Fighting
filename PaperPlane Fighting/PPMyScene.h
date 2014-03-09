@@ -12,13 +12,13 @@
 @class PPMainAirplane;
 @class PPMainBase;
 @class PPHunterAirplane;
-
+@class PPPositionIndicator;
 
 @interface PPMyScene : SKScene {
     
     PPMainAirplane *_userAirplane;
     PPMainBase *_mainBase;
-    PPHunterAirplane *_hunterAirplane;
+    //PPHunterAirplane *_hunterAirplane;
     
     CFTimeInterval _lastUpdateTime;
     CFTimeInterval _deltaTime;
@@ -28,9 +28,14 @@
     CGFloat _screenWidth;
     
     NSMutableArray *_arrayOfCurrentMissilesOnScreen;
+    NSMutableArray *_arrayOfEnemyHunterAirplanes;
+    NSMutableArray *_arrayOfEnemyBombers;
+    
+    PPPositionIndicator *_positionIndicator;
 }
 
-@property (nonatomic, retain) PPHunterAirplane *hunterAirplane;
+@property (nonatomic, retain) PPPositionIndicator *positionIndicator;
+//@property (nonatomic, retain) PPHunterAirplane *hunterAirplane;
 @property (nonatomic, retain) PPMainAirplane *userAirplane;
 @property (nonatomic, retain) PPMainBase *mainBase;
 @property (nonatomic, assign) CGRect screenRect;
@@ -39,6 +44,11 @@
 @property (nonatomic, assign) CFTimeInterval lastUpdateTime;
 @property (nonatomic, assign) CFTimeInterval deltaTime;
 @property (nonatomic, retain) NSMutableArray *arrayOfCurrentMissilesOnScreen;
+@property (nonatomic, retain) NSMutableArray *arrayOfEnemyHunterAirplanes;
+@property (nonatomic, retain) NSMutableArray *arrayOfEnemyBombers;
+
 @property SKEmitterNode *smokeTrail;
+//@property SKEmitterNode *explosionEmitter;
+- (void)AddExplosionEmitter:(CGPoint)position;
 
 @end

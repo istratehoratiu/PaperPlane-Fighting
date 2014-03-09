@@ -36,6 +36,18 @@
     return self;
 }
 
+
+#pragma mark -
+#pragma mark Getter Setter methods
+
+- (void)setHealth:(CGFloat)health {
+    _health = health;
+    
+    if (_health <= 0) {
+        [self removeFromParent];
+    }
+}
+
 - (void)setTargetPoint:(CGPoint)targetPoint {
     _targetPoint = targetPoint;
     _spriteFinishedOrientationRotation = NO;
@@ -45,6 +57,21 @@
     return _targetPoint;
 }
 
+
+#pragma mark -
+#pragma mark Overriden
+
+- (void)fireBullet {
+
+}
+
+- (void)stopFiring {
+
+}
+
+
+#pragma mark - 
+#pragma mark Help Methods
 
 - (void)updateMove:(CFTimeInterval)dt {
 

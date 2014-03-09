@@ -10,4 +10,17 @@
 
 @implementation PPBomber
 
+- (id)initMainAirplane {
+    self = [super initWithImageNamed:@".png"];
+    
+    if (self) {
+        
+        self.health = kPPBomberHealth;
+        
+        return self;
+    }
+    
+    return self;
+}
+
 @end

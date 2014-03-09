@@ -22,6 +22,8 @@
     
     if (self) {
         
+        self.health = kPPUserAirplaneHealth;
+        
         SKSpriteNode *_propeller = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE PROPELLER 1.png"];
         _propeller.scale = 0.2;
         _propeller.position = CGPointMake(self.position.x + 105, self.position.y );
@@ -38,7 +40,7 @@
         [self addChild:_propeller];
         
         _fireRange = [[SKSpriteNode alloc] init];
-        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(100, 0.0)]; // 1
+        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(300, 0.0)]; // 1
         //spriteOrientationLine.physicsBody.n
         _fireRange.physicsBody.dynamic = YES; // 2
         _fireRange.physicsBody.categoryBitMask = userAirplaneFiringRangeCategory; // 3

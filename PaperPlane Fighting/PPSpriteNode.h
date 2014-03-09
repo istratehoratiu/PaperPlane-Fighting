@@ -36,5 +36,7 @@
 - (void)updateMove:(CFTimeInterval)dt;
 - (void)updateRotation:(CFTimeInterval)dt;
 - (CGPoint)returnFireRange;
+- (void)fireBullet;
+- (void)stopFiring;
 
 @end
