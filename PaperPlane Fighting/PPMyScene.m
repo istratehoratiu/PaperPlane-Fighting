@@ -47,6 +47,22 @@
         [self addChild:backButton];
         
         
+        SKButtonNode *addEnemy = [[SKButtonNode alloc] initWithImageNamedNormal:@"plus.png" selected:@"plus.png"];
+        [addEnemy setPosition:CGPointMake(200, 100)];
+        [addEnemy.title setFontName:@"Chalkduster"];
+        [addEnemy.title setFontSize:10.0];
+        [addEnemy.title setText:@"Aircraft"];
+        [addEnemy setTouchUpInsideTarget:self action:@selector(addEnemyAtRandomLocation)];
+        [self addChild:addEnemy];
+        
+        SKButtonNode *addMissile = [[SKButtonNode alloc] initWithImageNamedNormal:@"plus.png" selected:@"plus.png"];
+        [addMissile setPosition:CGPointMake(300, 100)];
+        [addMissile.title setFontName:@"Chalkduster"];
+        [addMissile.title setText:@"Missile"];
+        [addMissile.title setFontSize:10.0];
+        [addMissile setTouchUpInsideTarget:self action:@selector(addEnemyMissile)];
+        [self addChild:addMissile];
+        
         _mainBase = [[PPMainBase alloc] initMainBaseNode];
         _mainBase.scale = 0.2;
         _mainBase.position = CGPointMake(self.size.width / 2, self.size.height / 2);
@@ -90,23 +106,12 @@
 //        [self runAction:[SKAction repeatActionForever:updateEnimies]];
         
         
-        PPMissile *missile = [[PPMissile alloc] initMissileNode];
-        missile.position = CGPointMake(self.size.width / 2 + 200, self.size.height / 2 + 200);
-        missile.targetAirplane = _userAirplane;
-        missile.scale = 0.1;
-        [self addChild:missile];
-        [_arrayOfCurrentMissilesOnScreen addObject:missile];
-        [missile updateOrientationVector];
-        
-        
         //adding the smokeTrail
         NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"trail" ofType:@"sks"];
         _smokeTrail = [NSKeyedUnarchiver unarchiveObjectWithFile:smokePath];
         _smokeTrail.position = CGPointMake(_screenWidth/2, 15);
         _smokeTrail.targetNode = self;
         [self addChild:_smokeTrail];
-        
-        [self addEnemyAtRandomLocation];
         
         _positionIndicator = [[PPPositionIndicator alloc] initPositionIndicatorForAircraft:_userAirplane];
     }
@@ -158,14 +163,51 @@
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
     
-//    static const uint32_t projectileCategory                =  0;
-//    static const uint32_t enemyAirplaneCategory             =  1;
-//    static const uint32_t userAirplaneFiringRangeCategory   =  2;
-//    static const uint32_t enemyAirplaneFiringRangeCategory  =  3;
-//    static const uint32_t userAirplaneCategory              =  4;
-//    static const uint32_t missileCategory                   =  5;
     
     NSLog(@" %d --- %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask);
+    
+    if (((contact.bodyA.categoryBitMask ==  enemyMissileCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask ==  userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyMissileCategory))) {
+        // Remove bullet from scene.
+        if (contact.bodyA.categoryBitMask ==  enemyMissileCategory) {
+            [_arrayOfCurrentMissilesOnScreen removeObject:firstNode];
+            [firstNode removeFromParent];
+        } else {
+            [_arrayOfCurrentMissilesOnScreen removeObject:secondNode];
+            [secondNode removeFromParent];
+        }
+        
+        [_userAirplane setHealth:_userAirplane.health - 50];
+        
+        if ([_userAirplane health] <= 0) {
+            _userAirplane.health = 100;
+            [self restartScene];
+        }
+    }
+    
+    if (((contact.bodyA.categoryBitMask ==  enemyProjectileCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask ==  userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyProjectileCategory))) {
+        // Remove bullet from scene.
+        if (contact.bodyA.categoryBitMask ==  enemyProjectileCategory) {
+            [firstNode removeFromParent];
+        } else {
+            [secondNode removeFromParent];
+        }
+        
+        [_userAirplane setHealth:_userAirplane.health - 10];
+        
+        if ([_userAirplane health] <= 0) {
+            
+            for (PPSpriteNode *hunterAirplane in _arrayOfEnemyHunterAirplanes) {
+                if (hunterAirplane.isFiringBullets) {
+                    [hunterAirplane stopFiring];
+                }
+            }
+            
+            _userAirplane.health = 100;
+            [self restartScene];
+        }
+    }
     
     if ((contact.bodyA.categoryBitMask ==  projectileCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneCategory)) {
         // Remove bullet from scene.
@@ -174,9 +216,11 @@
         [(PPHunterAirplane *)secondNode setHealth:[(PPHunterAirplane *)secondNode health] - 10];
         
         if ([(PPHunterAirplane *)secondNode health] <= 0) {
-            [self AddExplosionEmitter:secondNode.position];
+            
+            [_arrayOfEnemyHunterAirplanes removeObject:secondNode];
+            
             [_userAirplane stopFiring];
-            [self addEnemyAtRandomLocation];
+            //[self addEnemyAtRandomLocation];
         }
     } else if ((contact.bodyA.categoryBitMask == enemyAirplaneCategory) && (contact.bodyB.categoryBitMask == projectileCategory)) {
        
@@ -186,9 +230,11 @@
         [(PPHunterAirplane *)firstNode setHealth:[(PPHunterAirplane *)firstNode health] - 10];
         
         if ([(PPHunterAirplane *)firstNode health] <= 0) {
-            [self AddExplosionEmitter:firstNode.position];
+            
+            [_arrayOfEnemyHunterAirplanes removeObject:firstNode];
+            
             [_userAirplane stopFiring];
-            [self addEnemyAtRandomLocation];
+            //[self addEnemyAtRandomLocation];
         }
     }
     
@@ -236,13 +282,6 @@
     }
 }
 
-- (void)projectile:(SKSpriteNode *)projectile didCollideWithMonster:(SKSpriteNode *)monster {
-
-    [projectile removeFromParent];
-    [monster removeFromParent];
-}
-
-
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     for (UITouch *touch in touches) {
@@ -277,15 +316,27 @@
 #pragma mark -
 #pragma mark Helper Methods
 
+- (void)addEnemyMissile {
+    PPMissile *missile = [[PPMissile alloc] initMissileNode];
+    missile.position = CGPointMake([self getRandomNumberBetween:0 to:self.size.width], [self getRandomNumberBetween:0 to:745]);
+    missile.targetAirplane = _userAirplane;
+    missile.scale = 0.1;
+    
+    missile.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:missile.frame.size]; // 1
+    missile.physicsBody.dynamic = YES; // 2
+    missile.physicsBody.categoryBitMask = enemyMissileCategory; // 3
+    missile.physicsBody.contactTestBitMask = userAirplaneCategory; // 4
+    missile.physicsBody.collisionBitMask = 0; // 5
+    
+    [self addChild:missile];
+    [_arrayOfCurrentMissilesOnScreen addObject:missile];
+    [missile updateOrientationVector];
+}
+
 - (void)addEnemyAtRandomLocation {
     PPHunterAirplane *enemyAirplane = [[PPHunterAirplane alloc] initHunterAirPlane];
     
-    
-    
     enemyAirplane.position = CGPointMake([self getRandomNumberBetween:0 to:self.size.width], [self getRandomNumberBetween:0 to:745]);
-    
-    NSLog(@">>> Add Enemy at %f:%f", enemyAirplane.position.x, enemyAirplane.position.y);
-    
     enemyAirplane.scale = 0.2;
     enemyAirplane.targetAirplane = _userAirplane;
     
@@ -300,39 +351,6 @@
     [_arrayOfEnemyHunterAirplanes addObject:enemyAirplane];
 }
 
-- (void)AddExplosionEmitter:(CGPoint)position {
-    NSString *explosionPath = [[NSBundle mainBundle] pathForResource:@"explosion" ofType:@"sks"];
-    SKEmitterNode *explosionEmitter = [NSKeyedUnarchiver unarchiveObjectWithFile:explosionPath];
-    //explosionPath.position = CGPointMake(_screenWidth/2, 15);
-    explosionEmitter.targetNode = self;
-    explosionEmitter.numParticlesToEmit = 100;
-    explosionEmitter.position = position;
-    [self addChild:explosionEmitter];
-}
-
-- (void)calculateForCGPath:(CGMutablePathRef)cgPath controlPointsGivenStartingPoint:(CGPoint)startingPoint andEndPoint:(CGPoint) endPoint {
-    CGPoint firstPoint1 = CGPointZero;
-    CGPoint firstPoint2 = CGPointZero;
-    
-    CGPoint differenceVector =  skPointsSubtract(endPoint, startingPoint);
-    
-    if (differenceVector.x > 0 && differenceVector.y > 0) {
-        firstPoint1 = CGPointMake(startingPoint.x + (differenceVector.x * 0.25) - 50, startingPoint.y + (differenceVector.y * 0.25));
-        firstPoint2 = CGPointMake(startingPoint.x + (differenceVector.x * 0.75) - 50, startingPoint.y + (differenceVector.y * 0.75));
-    } else if (differenceVector.x < 0 && differenceVector.y > 0) {
-        firstPoint1 = CGPointMake(startingPoint.x + (differenceVector.x * 0.25) - 50, startingPoint.y + (differenceVector.y * 0.25));
-        firstPoint2 = CGPointMake(startingPoint.x + (differenceVector.x * 0.75) - 50, startingPoint.y + (differenceVector.y * 0.75));
-    }
-
-    CGPathAddCurveToPoint(cgPath, NULL, firstPoint1.x, firstPoint1.y, firstPoint2.x, firstPoint2.y, endPoint.x, endPoint.y);
-    
-}
-
-- (CGPoint)calculateControlPoint2GivenStartingPoint:(CGPoint)startingPoint firstControlPoint:(CGPoint)firstControlPoint andEndPoint:(CGPoint) endPoint {
-    CGPoint controlPoint = CGPointZero;
-    
-    return controlPoint;
-}
 
 // 1. Calculate the cosine of the angle and multiply this by the distance.
 // 2. Calculate the sine of the angle and multiply this by the distance.

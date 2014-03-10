@@ -90,6 +90,15 @@
     }
 }
 
+- (void)setHealth:(CGFloat)health {
+    
+    [super setHealth:health];
+    
+    if (_health <= 0) {
+        [self removeFromParent];
+    }
+}
+
 - (void)stopFiring {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(fireBullet) object:nil];
     _isFiringBullets = NO;

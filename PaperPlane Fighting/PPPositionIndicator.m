@@ -30,9 +30,6 @@
 
 
 - (void)updatePositionIndicatorForMainAircraft {
-    
-    NSLog(@">>>>>> %f / %f ", _aircraft.position.x, _aircraft.position.y);
-    
     // Check if the airplane is not on the screen, if not on screen add poisiton indicator to same parent.
     // If airplane is on screen check if poisiton indicator is on screen, if this is the case remove the postion indicator.
     if (_aircraft.position.x > 1024) {

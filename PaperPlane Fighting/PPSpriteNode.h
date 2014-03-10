@@ -38,5 +38,7 @@
 - (CGPoint)returnFireRange;
 - (void)fireBullet;
 - (void)stopFiring;
+- (void)addExplosionEmitter;
+- (void)addBulletHitEmitter;
 
 @end

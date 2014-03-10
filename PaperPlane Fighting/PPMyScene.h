@@ -46,9 +46,6 @@
 @property (nonatomic, retain) NSMutableArray *arrayOfCurrentMissilesOnScreen;
 @property (nonatomic, retain) NSMutableArray *arrayOfEnemyHunterAirplanes;
 @property (nonatomic, retain) NSMutableArray *arrayOfEnemyBombers;
-
 @property SKEmitterNode *smokeTrail;
-//@property SKEmitterNode *explosionEmitter;
-- (void)AddExplosionEmitter:(CGPoint)position;
 
 @end

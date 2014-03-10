@@ -54,6 +54,12 @@
     return self;
 }
 
+- (void)setHealth:(CGFloat)health {
+    [super setHealth:health];
+    
+    _health = health;
+}
+
 - (void)stopFiring {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(fireBullet) object:nil];
     _isFiringBullets = NO;

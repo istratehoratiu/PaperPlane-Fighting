@@ -13,12 +13,13 @@
 #define kPPBomberHealth 300
 
 static const uint32_t projectileCategory                =  0;
-static const uint32_t enemyProjectileCategory           =  6;
 static const uint32_t enemyAirplaneCategory             =  1;
 static const uint32_t userAirplaneFiringRangeCategory   =  2;
 static const uint32_t enemyAirplaneFiringRangeCategory  =  3;
 static const uint32_t userAirplaneCategory              =  4;
 static const uint32_t missileCategory                   =  5;
+static const uint32_t enemyProjectileCategory           =  6;
+static const uint32_t enemyMissileCategory              =  7;
 
 extern CGFloat kPPSpeedOfHunterAirplane;
 extern CGFloat kPPRotationSpeedOfHunterAirplane;

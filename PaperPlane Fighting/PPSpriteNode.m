@@ -44,7 +44,9 @@
     _health = health;
     
     if (_health <= 0) {
-        [self removeFromParent];
+        [self addExplosionEmitter];
+    } else {
+        [self addBulletHitEmitter];
     }
 }
 
@@ -69,16 +71,36 @@
 
 }
 
+- (void)updateMove:(CFTimeInterval)dt {
+    
+}
+
+- (void)updateRotation:(CFTimeInterval)dt {
+    
+}
+
 
 #pragma mark - 
 #pragma mark Help Methods
 
-- (void)updateMove:(CFTimeInterval)dt {
-
+- (void)addExplosionEmitter {
+    NSString *explosionPath = [[NSBundle mainBundle] pathForResource:@"explosion" ofType:@"sks"];
+    SKEmitterNode *explosionEmitter = [NSKeyedUnarchiver unarchiveObjectWithFile:explosionPath];
+    //explosionPath.position = CGPointMake(_screenWidth/2, 15);
+    explosionEmitter.targetNode = self.parent;
+    explosionEmitter.numParticlesToEmit = 100;
+    explosionEmitter.position = self.position;
+    [self.parent addChild:explosionEmitter];
 }
 
-- (void)updateRotation:(CFTimeInterval)dt {
-
+- (void)addBulletHitEmitter {
+    NSString *explosionPath = [[NSBundle mainBundle] pathForResource:@"bulletHit" ofType:@"sks"];
+    SKEmitterNode *explosionEmitter = [NSKeyedUnarchiver unarchiveObjectWithFile:explosionPath];
+    //explosionPath.position = CGPointMake(_screenWidth/2, 15);
+    explosionEmitter.targetNode = self.parent;
+    explosionEmitter.numParticlesToEmit = 1;
+    explosionEmitter.position = self.position;
+    [self.parent addChild:explosionEmitter];
 }
 
 - (void)updateOrientationVector {
