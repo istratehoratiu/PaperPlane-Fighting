@@ -23,14 +23,34 @@
     PPFlightDirection _flightDirection;
     
     CGFloat _health;
+    CGFloat _speed;
+    CGFloat _manevrability;
+    CGFloat _rateOfFire;
+    CGFloat _damage;
+    NSUInteger _numberOfRockects;
+    
+    SKSpriteNode *_lockOnCrosshair;
+    BOOL _isLockedOnByEnemy;
+    BOOL _hasLockOnByEnemy;
+    
+    SKAction *_lockOnAnimation;
 }
 
+@property (nonatomic, retain) SKAction *lockOnAnimation;
 @property (nonatomic, assign) PPFlightDirection flightDirection;
 @property (nonatomic, retain) SKSpriteNode *fireRange;
 @property (nonatomic, assign) BOOL isFiringBullets;
 @property (nonatomic, assign) CGPoint targetPoint;
 @property (nonatomic, assign) BOOL spriteFinishedOrientationRotation;
 @property (nonatomic, assign) CGFloat health;
+@property (nonatomic, assign) CGFloat speed;
+@property (nonatomic, assign) CGFloat manevrability;
+@property (nonatomic, assign) CGFloat rateOfFire;
+@property (nonatomic, assign) CGFloat damage;
+@property (nonatomic, retain) SKSpriteNode *lockOnCrosshair;
+@property (nonatomic, assign) BOOL isLockedOnByEnemy;
+@property (nonatomic, assign) BOOL hasLockOnByEnemy;
+@property (nonatomic, assign) NSUInteger numberOfRockets;
 
 - (void)updateOrientationVector;
 - (void)updateMove:(CFTimeInterval)dt;
@@ -40,5 +60,7 @@
 - (void)stopFiring;
 - (void)addExplosionEmitter;
 - (void)addBulletHitEmitter;
+- (void)startLockOnAnimation;
+- (void)removeLockOn;
 
 @end

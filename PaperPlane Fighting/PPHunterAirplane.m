@@ -9,6 +9,7 @@
 #import "PPHunterAirplane.h"
 #import "PPMath.h"
 #import "PPConstants.h"
+#import "PPMainAirplane.h"
 
 @implementation PPHunterAirplane
 
@@ -21,7 +22,10 @@
     
     if (self) {
         self.health = kPPHunterAirplaneHealth;
-        
+        self.speed = 60;
+        self.manevrability = kPPRotationSpeedOfHunterAirplane;
+        self.damage = 10;
+        self.rateOfFire = .5;
         
         _fireRange = [[SKSpriteNode alloc] init];
         _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(300, 0.0)]; // 1
@@ -45,9 +49,8 @@
     CGPoint offset = skPointsSubtract(destinationPoint, self.position);
     
     CGPoint targetVector =  normalizeVector(offset);
-    // 5
-    float POINTS_PER_SECOND = 60;
-    CGPoint targetPerSecond = skPointsMultiply(targetVector, POINTS_PER_SECOND);
+
+    CGPoint targetPerSecond = skPointsMultiply(targetVector, _speed);
     // 6
     //CGPoint actualTarget = ccpAdd(self.position, ccpMult(targetPerSecond, dt));
     CGPoint actualTarget = skPointsAdd(self.position, skPointsMultiply(targetPerSecond, dt));
@@ -67,7 +70,7 @@
     
     if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetAirplane.position, lineSource, lineEnd)) {
         
-        [self setZRotation:self.zRotation + (kPPRotationSpeedOfHunterAirplane * dt)];
+        [self setZRotation:self.zRotation + (_manevrability * dt)];
         
         
         CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
@@ -75,16 +78,16 @@
         
         if (!checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetAirplane.position, lineSource, lineEnd)) {
             
-            [self setZRotation:self.zRotation - (kPPRotationSpeedOfHunterAirplane * dt)];
+            [self setZRotation:self.zRotation - (_manevrability * dt)];
         }
         
     } else {
         
-        [self setZRotation:self.zRotation - (kPPRotationSpeedOfHunterAirplane * dt)];
+        [self setZRotation:self.zRotation - (_manevrability * dt)];
         
         if (checkIfPointIsToTheLeftOfLineGivenByTwoPoints(_targetAirplane.position, lineSource, lineEnd)) {
             
-            [self setZRotation:self.zRotation + (kPPRotationSpeedOfHunterAirplane * dt)];
+            [self setZRotation:self.zRotation + (_manevrability * dt)];
             
         }
     }
@@ -110,6 +113,7 @@
     
     SKSpriteNode *projectile = [SKSpriteNode spriteNodeWithImageNamed:@"B 2.png"];
     
+    projectile.scale = 0.5;
     projectile.zRotation = self.zRotation;
     projectile.position = self.position;
     
@@ -149,6 +153,12 @@
     [projectile runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
     
     [self performSelector:@selector(fireBullet) withObject:nil afterDelay:.2];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (_isLockedOnByEnemy) {
+        [(PPMainAirplane *)_targetAirplane launchMissileTowardAircraft:self];
+    }
 }
 
 @end

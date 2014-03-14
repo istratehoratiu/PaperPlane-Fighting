@@ -23,6 +23,7 @@
         _aircraft = aircraft;
         
         _aircraftOrientation = [[SKSpriteNode alloc] initWithTexture:_aircraft.texture];
+        [_aircraftOrientation setScale:0.2];
         [self addChild:_aircraftOrientation];
     }
     return self;

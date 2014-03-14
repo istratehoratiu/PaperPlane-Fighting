@@ -84,7 +84,7 @@
         
         // Main Actor
         _userAirplane = [[PPMainAirplane alloc] initMainAirplane];
-        _userAirplane.scale = 0.2;
+        _userAirplane.scale = 0.15;
         _userAirplane.position = CGPointMake(self.size.width / 2, self.size.height / 2);
         _userAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_userAirplane.size.width * 0.5]; // 1
         _userAirplane.physicsBody.dynamic = YES; // 2
@@ -165,6 +165,22 @@
     
     
     NSLog(@" %d --- %d", contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask);
+    
+    if (((contact.bodyA.categoryBitMask ==  missileCategory) && (contact.bodyB.categoryBitMask == enemyAirplaneCategory)) ||
+        ((contact.bodyA.categoryBitMask ==  enemyAirplaneCategory) && (contact.bodyB.categoryBitMask == missileCategory))) {
+        // Remove bullet from scene.
+        if (contact.bodyA.categoryBitMask ==  missileCategory) {
+            [_arrayOfCurrentMissilesOnScreen removeObject:firstNode];
+            [firstNode removeFromParent];
+            
+            [(PPHunterAirplane *)secondNode setHealth:[(PPHunterAirplane *)secondNode health] - 10];
+        } else {
+            [_arrayOfCurrentMissilesOnScreen removeObject:secondNode];
+            [secondNode removeFromParent];
+            
+            [(PPHunterAirplane *)firstNode setHealth:[(PPHunterAirplane *)secondNode health] - 10];
+        }
+    }
     
     if (((contact.bodyA.categoryBitMask ==  enemyMissileCategory) && (contact.bodyB.categoryBitMask == userAirplaneCategory)) ||
         ((contact.bodyA.categoryBitMask ==  userAirplaneCategory) && (contact.bodyB.categoryBitMask == enemyMissileCategory))) {
@@ -329,6 +345,7 @@
     missile.physicsBody.collisionBitMask = 0; // 5
     
     [self addChild:missile];
+    
     [_arrayOfCurrentMissilesOnScreen addObject:missile];
     [missile updateOrientationVector];
 }
@@ -337,7 +354,7 @@
     PPHunterAirplane *enemyAirplane = [[PPHunterAirplane alloc] initHunterAirPlane];
     
     enemyAirplane.position = CGPointMake([self getRandomNumberBetween:0 to:self.size.width], [self getRandomNumberBetween:0 to:745]);
-    enemyAirplane.scale = 0.2;
+    enemyAirplane.scale = 0.3;
     enemyAirplane.targetAirplane = _userAirplane;
     
     enemyAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:enemyAirplane.size.width * 0.5]; // 1
@@ -347,6 +364,9 @@
     enemyAirplane.physicsBody.collisionBitMask = 0; // 5
     
     [self addChild:enemyAirplane];
+    
+    [enemyAirplane startLockOnAnimation];
+    
     [enemyAirplane updateOrientationVector];
     [_arrayOfEnemyHunterAirplanes addObject:enemyAirplane];
 }

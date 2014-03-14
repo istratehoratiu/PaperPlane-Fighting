@@ -14,5 +14,6 @@
 - (id)initMainAirplane ;
 
 - (CGPoint)currentDirection;
+- (void)launchMissileTowardAircraft:(PPSpriteNode *)aicraft;
 
 @end

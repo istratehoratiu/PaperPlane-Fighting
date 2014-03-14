@@ -10,6 +10,8 @@
 #import "SKSpriteNode+Additions.h"
 #import "PPMath.h"
 #import "PPConstants.h"
+#import "PPMissile.h"
+#import "PPMyScene.h"
 
 #define kPPMainAirplaneRotationSpeed 1.5
 #define kPPMissileRotationSpeed 1.5
@@ -23,6 +25,11 @@
     if (self) {
         
         self.health = kPPUserAirplaneHealth;
+        self.speed =
+        self.manevrability = kPPMainAirplaneRotationSpeed;
+        self.damage = 10;
+        self.rateOfFire = .2;
+        self.numberOfRockets = 10;
         
         SKSpriteNode *_propeller = [SKSpriteNode spriteNodeWithImageNamed:@"PLANE PROPELLER 1.png"];
         _propeller.scale = 0.2;
@@ -71,6 +78,7 @@
     
     SKSpriteNode *projectile = [SKSpriteNode spriteNodeWithImageNamed:@"B 2.png"];
     
+    projectile.scale = 0.5;
     projectile.zRotation = self.zRotation;
     projectile.position = self.position;
     
@@ -109,7 +117,33 @@
     SKAction * actionMoveDone = [SKAction removeFromParent];
     [projectile runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
     
-    [self performSelector:@selector(fireBullet) withObject:nil afterDelay:.2];
+    [self performSelector:@selector(fireBullet) withObject:nil afterDelay:_rateOfFire];
+}
+
+
+- (void)launchMissileTowardAircraft:(PPSpriteNode *)aicraft {
+    
+    if (_numberOfRockects <= 0) {
+        NSLog(@">>>>>>> No More Rockets <<<<<");
+        return;
+    }
+    
+    PPMissile *missile = [[PPMissile alloc] initMissileNode];
+    missile.position = self.position;
+    missile.zRotation = self.zRotation;
+    missile.targetAirplane = aicraft;
+    missile.scale = 0.1;
+    
+    missile.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:missile.frame.size]; // 1
+    missile.physicsBody.dynamic = YES; // 2
+    missile.physicsBody.categoryBitMask = missileCategory; // 3
+    missile.physicsBody.contactTestBitMask = enemyAirplaneCategory; // 4
+    missile.physicsBody.collisionBitMask = 0; // 5
+    
+    [self.parent addChild:missile];
+    
+    [[(PPMyScene*)self.parent arrayOfCurrentMissilesOnScreen] addObject:missile];
+    [missile updateOrientationVector];
 }
 
 - (void)updateMove:(CFTimeInterval)dt {
