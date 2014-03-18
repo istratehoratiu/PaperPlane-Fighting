@@ -9,8 +9,12 @@
 #import "PPSpriteNode.h"
 
 @interface PPMainAirplane : PPSpriteNode {
-
+    // A pointer to the airplane that the missile is targeting.
+    PPSpriteNode *_targetAirplane;
 }
+
+@property (nonatomic, strong) PPSpriteNode *targetAirplane;
+
 - (id)initMainAirplane ;
 
 - (CGPoint)currentDirection;

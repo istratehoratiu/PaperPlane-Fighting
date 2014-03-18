@@ -28,7 +28,7 @@
         self.rateOfFire = .5;
         
         _fireRange = [[SKSpriteNode alloc] init];
-        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(300, 0.0)]; // 1
+        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(1200, 0.0)]; // 1
         //spriteOrientationLine.physicsBody.n
         _fireRange.physicsBody.dynamic = YES; // 2
         _fireRange.physicsBody.categoryBitMask = enemyAirplaneFiringRangeCategory; // 3
@@ -145,7 +145,7 @@
     CGVector vectorDir = CGVectorMake(shootAmount.x, shootAmount.y);
     
     // 9 - Create the actions
-    float velocity = 30.0/1.0;
+    float velocity = 15.0/1.0;
     float realMoveDuration = self.size.width / velocity;
     SKAction * actionMove = [SKAction moveBy:vectorDir duration:realMoveDuration];
     //SKAction * actionMove = [SKAction moveTo:shootAmount duration:realMoveDuration];

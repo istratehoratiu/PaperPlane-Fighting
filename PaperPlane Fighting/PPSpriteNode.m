@@ -33,6 +33,11 @@
 @synthesize lockOnCrosshair = _lockOnCrosshair;
 @synthesize lockOnAnimation = _lockOnAnimation;
 @synthesize numberOfRockets = _numberOfRockects;
+@synthesize smokeTrail = _smokeTrail;
+@synthesize shadow = _shadow;
+@synthesize missileRange = _missileRange;
+@synthesize isInProcessOfLockingIn = _isInProcessOfLockingIn;
+
 
 - (id)initWithImageNamed:(NSString *)name {
     
@@ -43,8 +48,8 @@
         
         _lockOnCrosshair = [[SKSpriteNode alloc] initWithImageNamed:@"crosshair.png"];
         
-        SKAction *zoom = [SKAction scaleTo:.5 duration:2];
-        SKAction *oneRevolution = [SKAction rotateByAngle:-M_PI*2 duration:2.0];
+        SKAction *zoom = [SKAction scaleTo:.5 duration:1];
+        SKAction *oneRevolution = [SKAction rotateByAngle:-M_PI*2 duration:1];
         
         [self setUserInteractionEnabled:YES];
         
@@ -98,16 +103,29 @@
 }
 
 - (void)startLockOnAnimation {
+    
+    if (_lockOnCrosshair.parent) {
+        [_lockOnCrosshair removeFromParent];
+    }
+    
+    _isLockedOnByEnemy = YES;
+    
     _lockOnCrosshair.position = self.centerRect.origin;
     [self addChild:_lockOnCrosshair];
     [_lockOnCrosshair runAction:_lockOnAnimation completion:^{
+
         
-        _isLockedOnByEnemy = YES;
     }];
 }
 
 - (void)removeLockOn {
+    _isLockedOnByEnemy = NO;
+
     [_lockOnCrosshair removeAllActions];
+    
+    if (_lockOnCrosshair.parent) {
+        [_lockOnCrosshair removeFromParent];
+    }
 }
 
 

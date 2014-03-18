@@ -21,4 +21,13 @@
     return self;
 }
 
+- (void)startLockOnAnimation {
+
+}
+
+- (void)removeLockOn {
+
+}
+
+
 @end

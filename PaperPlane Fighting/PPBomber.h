@@ -8,6 +8,15 @@
 
 #import "PPSpriteNode.h"
 
-@interface PPBomber : PPSpriteNode
+@interface PPBomber : PPSpriteNode {
+    PPSpriteNode *_mainAirplane;
+    PPSpriteNode *_mainBase;
+    BOOL _shouldFire;
+}
+
+@property (nonatomic, strong) PPSpriteNode *mainAirplane;
+@property (nonatomic, strong) PPSpriteNode *mainBase;
+
+- (id)initBomber;
 
 @end

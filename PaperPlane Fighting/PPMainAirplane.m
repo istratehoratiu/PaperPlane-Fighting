@@ -16,8 +16,11 @@
 #define kPPMainAirplaneRotationSpeed 1.5
 #define kPPMissileRotationSpeed 1.5
 
+
 @implementation PPMainAirplane
 
+
+@synthesize targetAirplane = _targetAirplane;
 
 - (id)initMainAirplane {
     self = [super initWithImageNamed:@"PLANE 8 N.png"];
@@ -46,16 +49,43 @@
         
         [self addChild:_propeller];
         
+//        _fireRange = [[SKSpriteNode alloc] init];
+//        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(1200 , 0.0)]; // 1
+//        //spriteOrientationLine.physicsBody.n
+//        _fireRange.physicsBody.dynamic = YES; // 2
+//        _fireRange.physicsBody.categoryBitMask = userAirplaneFiringRangeCategory; // 3
+//        _fireRange.physicsBody.usesPreciseCollisionDetection = YES;
+//        _fireRange.physicsBody.contactTestBitMask = enemyAirplaneCategory; // 4
+//        _fireRange.physicsBody.collisionBitMask = 0; // 5
+//
+//        [self addChild:_fireRange];
+
         _fireRange = [[SKSpriteNode alloc] init];
-        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(300, 0.0)]; // 1
+        _fireRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(1500 , 0.0)]; // 1
         //spriteOrientationLine.physicsBody.n
         _fireRange.physicsBody.dynamic = YES; // 2
         _fireRange.physicsBody.categoryBitMask = userAirplaneFiringRangeCategory; // 3
         _fireRange.physicsBody.usesPreciseCollisionDetection = YES;
-        _fireRange.physicsBody.contactTestBitMask = enemyAirplaneCategory; // 4
+        _fireRange.physicsBody.contactTestBitMask = enemyAirplaneCategory | enemyBomberCategory; // 4
         _fireRange.physicsBody.collisionBitMask = 0; // 5
-
+        
         [self addChild:_fireRange];
+        
+        _missileRange = [[SKSpriteNode alloc] init];
+        _missileRange.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0, 0.0) toPoint:CGPointMake(20000 , 0.0)]; // 1
+        //spriteOrientationLine.physicsBody.n
+        _missileRange.physicsBody.dynamic = YES; // 2
+        _missileRange.physicsBody.categoryBitMask = userMissileRangeCategory; // 3
+        _missileRange.physicsBody.usesPreciseCollisionDetection = YES;
+        _missileRange.physicsBody.contactTestBitMask = enemyAirplaneCategory | enemyBomberCategory; // 4
+        _missileRange.physicsBody.collisionBitMask = 0; // 5
+        
+        [self addChild:_missileRange];
+        
+        // Bring aircraft to foreground
+        self.zPosition = 1;
+        
+        _shadow = [[SKSpriteNode alloc] initWithImageNamed:@"PLANE 8 SHADOW.png"];
     }
     
     return self;
@@ -74,6 +104,8 @@
 
 - (void)fireBullet {
     
+    //[SKAction playSoundFileNamed:@"missile.mp3" waitForCompletion:YES];
+    
     _isFiringBullets = YES;
     
     SKSpriteNode *projectile = [SKSpriteNode spriteNodeWithImageNamed:@"B 2.png"];
@@ -85,7 +117,7 @@
     projectile.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:projectile.size.width * 0.5];
     projectile.physicsBody.dynamic = YES;
     projectile.physicsBody.categoryBitMask = projectileCategory;
-    projectile.physicsBody.contactTestBitMask = enemyAirplaneCategory;
+    projectile.physicsBody.contactTestBitMask = enemyAirplaneCategory | enemyBomberCategory;
     projectile.physicsBody.collisionBitMask = 0;
     projectile.physicsBody.usesPreciseCollisionDetection = YES;
     
@@ -110,7 +142,7 @@
     CGVector vectorDir = CGVectorMake(shootAmount.x, shootAmount.y);
     
     // 9 - Create the actions
-    float velocity = 30.0/1.0;
+    float velocity = 15.0;
     float realMoveDuration = self.size.width / velocity;
     SKAction * actionMove = [SKAction moveBy:vectorDir duration:realMoveDuration];
     //SKAction * actionMove = [SKAction moveTo:shootAmount duration:realMoveDuration];
@@ -127,6 +159,8 @@
         NSLog(@">>>>>>> No More Rockets <<<<<");
         return;
     }
+    
+    //[SKAction playSoundFileNamed:@"missile.mp3" waitForCompletion:YES];
     
     PPMissile *missile = [[PPMissile alloc] initMissileNode];
     missile.position = self.position;
@@ -147,6 +181,27 @@
 }
 
 - (void)updateMove:(CFTimeInterval)dt {
+    
+    if (!_shadow.parent) {
+        
+        _shadow.scale = .15;
+        _shadow.zPosition = 0;
+        [self.parent addChild:_shadow];
+    }
+    
+    _shadow.position = CGPointMake(self.position.x + 10, self.position.y + 10);
+    
+    if (!_smokeTrail.parent) {
+        
+        NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"trail" ofType:@"sks"];
+        _smokeTrail = [NSKeyedUnarchiver unarchiveObjectWithFile:smokePath];
+        _smokeTrail.position = CGPointMake(0.0, 0.0);
+        _smokeTrail.targetNode = self.parent;
+        
+        [self.parent addChild:_smokeTrail];
+    }
+    
+    _smokeTrail.position = self.position;
     
     CGPoint destinationPoint = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
     
@@ -181,6 +236,8 @@
         [self setZRotation:self.zRotation - (kPPMainAirplaneRotationSpeed * dt)];
         self.texture = [SKTexture textureWithImageNamed:@"PLANE 8 R.png"];
     }
+    
+    _shadow.zRotation = self.zRotation;
 }
 
 - (CGPoint)currentDirection {

@@ -47,5 +47,7 @@
 @property (nonatomic, retain) NSMutableArray *arrayOfEnemyHunterAirplanes;
 @property (nonatomic, retain) NSMutableArray *arrayOfEnemyBombers;
 @property SKEmitterNode *smokeTrail;
+@property NSMutableArray *cloudsTextures;
+@property NSMutableArray *explosionTextures;
 
 @end

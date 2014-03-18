@@ -24,6 +24,13 @@ CGPoint skPointsDivide(CGPoint startingPosition, CGFloat value) {
     return CGPointMake(startingPosition.x / value, startingPosition.y / value);
 }
 
+
+CGFloat distanceBetweenPoint(CGPoint startPoint, CGPoint endPoint) {
+    CGFloat dx= startPoint.x - endPoint.x;
+    CGFloat dy= startPoint.y - endPoint.y;
+    return sqrt(dx*dx + dy*dy);
+}
+
 CGPoint normalizeVector(CGPoint vector) {
     // Magnitude == Length of Vector.
     CGFloat magnitudine = sqrt(pow(vector.x, 2) + pow(vector.y, 2));
@@ -58,3 +65,6 @@ CGPoint getIntersectionOfLinesGivenByPoints(CGPoint firstPointOnLine1, CGPoint s
     return CGPointMake(x, y);
 }
 
+NSUInteger getRandomNumberBetween(NSUInteger startInterval, NSUInteger endInterval) {
+    return (int)startInterval + arc4random() % (endInterval-startInterval+1);
+}

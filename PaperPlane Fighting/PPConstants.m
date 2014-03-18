@@ -10,4 +10,5 @@
 
 CGFloat kPPSpeedOfHunterAirplane = .75;
 CGFloat kPPRotationSpeedOfHunterAirplane = .35;
+CGFloat kPPRotationSpeedOfBomber = .15;
 CGFloat kPPRateOfFireForMainAirplane = 0.5;

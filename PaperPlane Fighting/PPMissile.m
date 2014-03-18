@@ -14,7 +14,6 @@
 
 @implementation PPMissile
 
-@synthesize smokeTrail      = _smokeTrail;
 @synthesize targetAirplane  = _targetAirplane;
 
 #define kPPMainAirplaneRotationSpeed 1.5
@@ -61,6 +60,11 @@
 
 }
 
+- (void)removeFromParent {
+    [_smokeTrail removeFromParent];
+    [super removeFromParent];
+}
+
 - (void)updateRotation:(CFTimeInterval)dt {
 
     CGPoint lineSource = [self.parent convertPoint:CGPointMake(0, 0) fromNode:self];
@@ -96,6 +100,14 @@
             _spriteFinishedOrientationRotation = YES;
         }
     }
+}
+
+- (void)startLockOnAnimation {
+    
+}
+
+- (void)removeLockOn {
+    
 }
 
 @end

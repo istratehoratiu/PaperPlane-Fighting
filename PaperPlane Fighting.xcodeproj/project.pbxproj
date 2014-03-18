@@ -34,6 +34,10 @@
 		EB1D120F18CC99DE00B4AC28 /* bulletHit.sks in Resources */ = {isa = PBXBuildFile; fileRef = EB1D120E18CC99DE00B4AC28 /* bulletHit.sks */; };
 		EB1D121118CCC3A100B4AC28 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = EB1D121018CCC3A100B4AC28 /* plus.png */; };
 		EB1D121418CE6F0D00B4AC28 /* PPSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1D121318CE6F0D00B4AC28 /* PPSlider.m */; };
+		EB231FA018D5B9D900B014DF /* B-25J-Bomber-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EB231F9F18D5B9D900B014DF /* B-25J-Bomber-1.png */; };
+		EB231FA318D5F3CD00B014DF /* PPMissileAircraft.m in Sources */ = {isa = PBXBuildFile; fileRef = EB231FA218D5F3CD00B014DF /* PPMissileAircraft.m */; };
+		EB231FA518D5F97B00B014DF /* Clouds.atlas in Resources */ = {isa = PBXBuildFile; fileRef = EB231FA418D5F97B00B014DF /* Clouds.atlas */; };
+		EB231FA718D5F98300B014DF /* EXPLOSION.atlas in Resources */ = {isa = PBXBuildFile; fileRef = EB231FA618D5F98300B014DF /* EXPLOSION.atlas */; };
 		EB29AF3C18A43CA400A75689 /* B 2.png in Resources */ = {isa = PBXBuildFile; fileRef = EB29AF3B18A43CA400A75689 /* B 2.png */; };
 		EB7D82D518A57C8D006EC594 /* SKButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB7D82D418A57C8D006EC594 /* SKButtonNode.m */; };
 		EB7D82DE18A580ED006EC594 /* PLANE 1 N.png in Resources */ = {isa = PBXBuildFile; fileRef = EB7D82D618A580ED006EC594 /* PLANE 1 N.png */; };
@@ -46,6 +50,9 @@
 		EB7D82E518A580ED006EC594 /* PLANE PROPELLER 2.png in Resources */ = {isa = PBXBuildFile; fileRef = EB7D82DD18A580ED006EC594 /* PLANE PROPELLER 2.png */; };
 		EB7D82E718A593FE006EC594 /* airPlanesBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = EB7D82E618A593FE006EC594 /* airPlanesBackground.png */; };
 		EB7D82F118A69D45006EC594 /* PPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = EB7D82F018A69D45006EC594 /* PPConstants.m */; };
+		EB8DFCBA18D8F096006765F5 /* glossy_red_button.png in Resources */ = {isa = PBXBuildFile; fileRef = EB8DFCB918D8F096006765F5 /* glossy_red_button.png */; };
+		EB8DFCBD18D90E3E006765F5 /* machinegun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB8DFCBB18D90E3E006765F5 /* machinegun.mp3 */; };
+		EB8DFCBE18D90E3E006765F5 /* missile.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB8DFCBC18D90E3E006765F5 /* missile.mp3 */; };
 		EB97D7851891BAB40039AC04 /* SKShapeNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */; };
 		EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */; };
 		EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */; };
@@ -108,6 +115,11 @@
 		EB1D121018CCC3A100B4AC28 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		EB1D121218CE6F0D00B4AC28 /* PPSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSlider.h; sourceTree = "<group>"; };
 		EB1D121318CE6F0D00B4AC28 /* PPSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSlider.m; sourceTree = "<group>"; };
+		EB231F9F18D5B9D900B014DF /* B-25J-Bomber-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "B-25J-Bomber-1.png"; sourceTree = "<group>"; };
+		EB231FA118D5F3CD00B014DF /* PPMissileAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMissileAircraft.h; sourceTree = "<group>"; };
+		EB231FA218D5F3CD00B014DF /* PPMissileAircraft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMissileAircraft.m; sourceTree = "<group>"; };
+		EB231FA418D5F97B00B014DF /* Clouds.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Clouds.atlas; sourceTree = "<group>"; };
+		EB231FA618D5F98300B014DF /* EXPLOSION.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = EXPLOSION.atlas; sourceTree = "<group>"; };
 		EB29AF3B18A43CA400A75689 /* B 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "B 2.png"; sourceTree = "<group>"; };
 		EB7D82D318A57C8D006EC594 /* SKButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKButtonNode.h; sourceTree = "<group>"; };
 		EB7D82D418A57C8D006EC594 /* SKButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKButtonNode.m; sourceTree = "<group>"; };
@@ -122,6 +134,9 @@
 		EB7D82E618A593FE006EC594 /* airPlanesBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airPlanesBackground.png; sourceTree = "<group>"; };
 		EB7D82EF18A69D45006EC594 /* PPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPConstants.h; sourceTree = "<group>"; };
 		EB7D82F018A69D45006EC594 /* PPConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPConstants.m; sourceTree = "<group>"; };
+		EB8DFCB918D8F096006765F5 /* glossy_red_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glossy_red_button.png; sourceTree = "<group>"; };
+		EB8DFCBB18D90E3E006765F5 /* machinegun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = machinegun.mp3; sourceTree = "<group>"; };
+		EB8DFCBC18D90E3E006765F5 /* missile.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = missile.mp3; sourceTree = "<group>"; };
 		EB97D7831891BAB40039AC04 /* SKShapeNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKShapeNode+Additions.h"; sourceTree = "<group>"; };
 		EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKShapeNode+Additions.m"; sourceTree = "<group>"; };
 		EB97D7861891BE390039AC04 /* SKSpriteNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKSpriteNode+Additions.h"; sourceTree = "<group>"; };
@@ -276,6 +291,8 @@
 				EBC1BC9318A7D7EE006DF94A /* PPBomber.m */,
 				EB13C5A118BD59C3003587FD /* PPMainBase.h */,
 				EB13C5A218BD59C3003587FD /* PPMainBase.m */,
+				EB231FA118D5F3CD00B014DF /* PPMissileAircraft.h */,
+				EB231FA218D5F3CD00B014DF /* PPMissileAircraft.m */,
 			);
 			name = Actors;
 			sourceTree = "<group>";
@@ -283,6 +300,12 @@
 		EB7D82E918A69A8D006EC594 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EB8DFCBB18D90E3E006765F5 /* machinegun.mp3 */,
+				EB8DFCBC18D90E3E006765F5 /* missile.mp3 */,
+				EB8DFCB918D8F096006765F5 /* glossy_red_button.png */,
+				EB231FA618D5F98300B014DF /* EXPLOSION.atlas */,
+				EB231FA418D5F97B00B014DF /* Clouds.atlas */,
+				EB231F9F18D5B9D900B014DF /* B-25J-Bomber-1.png */,
 				EBCB0BFC18CF8B26009F19E0 /* crosshair.png */,
 				EB1D121018CCC3A100B4AC28 /* plus.png */,
 				EB1D120A18CC6E5E00B4AC28 /* restart_down.png */,
@@ -441,8 +464,10 @@
 				EB7D82DF18A580ED006EC594 /* PLANE 2 N.png in Resources */,
 				EB7D82DE18A580ED006EC594 /* PLANE 1 N.png in Resources */,
 				EB7D82E118A580ED006EC594 /* PLANE 8 N.png in Resources */,
+				EB231FA518D5F97B00B014DF /* Clouds.atlas in Resources */,
 				EB1BC09E187F48970056D80D /* Images.xcassets in Resources */,
 				EBCB0BFD18CF8B26009F19E0 /* crosshair.png in Resources */,
+				EB8DFCBA18D8F096006765F5 /* glossy_red_button.png in Resources */,
 				EB7D82E718A593FE006EC594 /* airPlanesBackground.png in Resources */,
 				EB7D82E018A580ED006EC594 /* PLANE 8 L.png in Resources */,
 				EBD32CC618AE94BB00F8F1D1 /* missile.png in Resources */,
@@ -456,12 +481,16 @@
 				EB29AF3C18A43CA400A75689 /* B 2.png in Resources */,
 				EB1D120118CB4BF100B4AC28 /* explosion.sks in Resources */,
 				EB13C5A518BD5DB4003587FD /* hangar.png in Resources */,
+				EB231FA718D5F98300B014DF /* EXPLOSION.atlas in Resources */,
 				EB1BC094187F48970056D80D /* Main.storyboard in Resources */,
 				EB7D82E418A580ED006EC594 /* PLANE PROPELLER 1.png in Resources */,
+				EB231FA018D5B9D900B014DF /* B-25J-Bomber-1.png in Resources */,
 				EBD32CC818AEA2B800F8F1D1 /* SMOKE TRAIL.png in Resources */,
 				EB7D82E318A580ED006EC594 /* PLANE 8 SHADOW.png in Resources */,
+				EB8DFCBD18D90E3E006765F5 /* machinegun.mp3 in Resources */,
 				EB1D120318CC3C3A00B4AC28 /* positionIndicator.png in Resources */,
 				EB7D82E518A580ED006EC594 /* PLANE PROPELLER 2.png in Resources */,
+				EB8DFCBE18D90E3E006765F5 /* missile.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +517,7 @@
 				EB1D121418CE6F0D00B4AC28 /* PPSlider.m in Sources */,
 				EB7D82D518A57C8D006EC594 /* SKButtonNode.m in Sources */,
 				EB1BC091187F48970056D80D /* PPAppDelegate.m in Sources */,
+				EB231FA318D5F3CD00B014DF /* PPMissileAircraft.m in Sources */,
 				EB1BC097187F48970056D80D /* PPViewController.m in Sources */,
 				EB1BC09A187F48970056D80D /* PPMyScene.m in Sources */,
 				EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */,
