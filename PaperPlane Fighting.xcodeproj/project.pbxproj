@@ -57,6 +57,12 @@
 		EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D7871891BE390039AC04 /* SKSpriteNode+Additions.m */; };
 		EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */; };
 		EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */ = {isa = PBXBuildFile; fileRef = EB97D78E1891D92F0039AC04 /* PPMath.m */; };
+		EBB4D3A318DB687C0085051A /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB4D3A118DB687C0085051A /* pause.png */; };
+		EBB4D3A418DB687C0085051A /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB4D3A218DB687C0085051A /* play.png */; };
+		EBB4D3A718DB85CA0085051A /* Fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = EBB4D3A518DB85CA0085051A /* Fire.sks */; };
+		EBB4D3A818DB85CA0085051A /* DamageSmoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = EBB4D3A618DB85CA0085051A /* DamageSmoke.sks */; };
+		EBB4D3AB18DB865F0085051A /* SKEmitterNode+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB4D3AA18DB865F0085051A /* SKEmitterNode+Utilities.m */; };
+		EBB4D3AE18DCAE2C0085051A /* PPMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB4D3AD18DCAE2C0085051A /* PPMenuScene.m */; };
 		EBC1BC8B18A7D7A8006DF94A /* PPMainAirplane.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC8A18A7D7A8006DF94A /* PPMainAirplane.m */; };
 		EBC1BC8E18A7D7CA006DF94A /* PPMissile.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC8D18A7D7CA006DF94A /* PPMissile.m */; };
 		EBC1BC9118A7D7E0006DF94A /* PPHunterAirplane.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC1BC9018A7D7E0006DF94A /* PPHunterAirplane.m */; };
@@ -145,6 +151,14 @@
 		EB97D78B1891C91C0039AC04 /* PPSpriteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSpriteNode.m; sourceTree = "<group>"; };
 		EB97D78D1891D92F0039AC04 /* PPMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMath.h; sourceTree = "<group>"; };
 		EB97D78E1891D92F0039AC04 /* PPMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMath.m; sourceTree = "<group>"; };
+		EBB4D3A118DB687C0085051A /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
+		EBB4D3A218DB687C0085051A /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		EBB4D3A518DB85CA0085051A /* Fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Fire.sks; sourceTree = "<group>"; };
+		EBB4D3A618DB85CA0085051A /* DamageSmoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DamageSmoke.sks; sourceTree = "<group>"; };
+		EBB4D3A918DB865F0085051A /* SKEmitterNode+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKEmitterNode+Utilities.h"; sourceTree = "<group>"; };
+		EBB4D3AA18DB865F0085051A /* SKEmitterNode+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKEmitterNode+Utilities.m"; sourceTree = "<group>"; };
+		EBB4D3AC18DCAE2C0085051A /* PPMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMenuScene.h; sourceTree = "<group>"; };
+		EBB4D3AD18DCAE2C0085051A /* PPMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMenuScene.m; sourceTree = "<group>"; };
 		EBC1BC8918A7D7A8006DF94A /* PPMainAirplane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMainAirplane.h; sourceTree = "<group>"; };
 		EBC1BC8A18A7D7A8006DF94A /* PPMainAirplane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMainAirplane.m; sourceTree = "<group>"; };
 		EBC1BC8C18A7D7CA006DF94A /* PPMissile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMissile.h; sourceTree = "<group>"; };
@@ -300,9 +314,13 @@
 		EB7D82E918A69A8D006EC594 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EBB4D3A118DB687C0085051A /* pause.png */,
+				EBB4D3A218DB687C0085051A /* play.png */,
 				EB8DFCBB18D90E3E006765F5 /* machinegun.mp3 */,
 				EB8DFCBC18D90E3E006765F5 /* missile.mp3 */,
 				EB8DFCB918D8F096006765F5 /* glossy_red_button.png */,
+				EBB4D3A518DB85CA0085051A /* Fire.sks */,
+				EBB4D3A618DB85CA0085051A /* DamageSmoke.sks */,
 				EB231FA618D5F98300B014DF /* EXPLOSION.atlas */,
 				EB231FA418D5F97B00B014DF /* Clouds.atlas */,
 				EB231F9F18D5B9D900B014DF /* B-25J-Bomber-1.png */,
@@ -338,6 +356,8 @@
 			children = (
 				EB1BC098187F48970056D80D /* PPMyScene.h */,
 				EB1BC099187F48970056D80D /* PPMyScene.m */,
+				EBB4D3AC18DCAE2C0085051A /* PPMenuScene.h */,
+				EBB4D3AD18DCAE2C0085051A /* PPMenuScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -354,6 +374,8 @@
 		EB7D82EC18A69C7B006EC594 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				EBB4D3A918DB865F0085051A /* SKEmitterNode+Utilities.h */,
+				EBB4D3AA18DB865F0085051A /* SKEmitterNode+Utilities.m */,
 				EB97D7831891BAB40039AC04 /* SKShapeNode+Additions.h */,
 				EB97D7841891BAB40039AC04 /* SKShapeNode+Additions.m */,
 				EB97D7861891BE390039AC04 /* SKSpriteNode+Additions.h */,
@@ -430,6 +452,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Horatiu Istrate";
 				TargetAttributes = {
+					EB1BC07A187F48970056D80D = {
+						DevelopmentTeam = T8347X58ME;
+					};
 					EB1BC0A2187F48970056D80D = {
 						TestTargetID = EB1BC07A187F48970056D80D;
 					};
@@ -460,12 +485,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB1BC08B187F48970056D80D /* InfoPlist.strings in Resources */,
+				EBB4D3A418DB687C0085051A /* play.png in Resources */,
 				EBD32CCC18AEA30300F8F1D1 /* spark.png in Resources */,
 				EB7D82DF18A580ED006EC594 /* PLANE 2 N.png in Resources */,
 				EB7D82DE18A580ED006EC594 /* PLANE 1 N.png in Resources */,
 				EB7D82E118A580ED006EC594 /* PLANE 8 N.png in Resources */,
 				EB231FA518D5F97B00B014DF /* Clouds.atlas in Resources */,
 				EB1BC09E187F48970056D80D /* Images.xcassets in Resources */,
+				EBB4D3A818DB85CA0085051A /* DamageSmoke.sks in Resources */,
 				EBCB0BFD18CF8B26009F19E0 /* crosshair.png in Resources */,
 				EB8DFCBA18D8F096006765F5 /* glossy_red_button.png in Resources */,
 				EB7D82E718A593FE006EC594 /* airPlanesBackground.png in Resources */,
@@ -485,6 +512,8 @@
 				EB1BC094187F48970056D80D /* Main.storyboard in Resources */,
 				EB7D82E418A580ED006EC594 /* PLANE PROPELLER 1.png in Resources */,
 				EB231FA018D5B9D900B014DF /* B-25J-Bomber-1.png in Resources */,
+				EBB4D3A318DB687C0085051A /* pause.png in Resources */,
+				EBB4D3A718DB85CA0085051A /* Fire.sks in Resources */,
 				EBD32CC818AEA2B800F8F1D1 /* SMOKE TRAIL.png in Resources */,
 				EB7D82E318A580ED006EC594 /* PLANE 8 SHADOW.png in Resources */,
 				EB8DFCBD18D90E3E006765F5 /* machinegun.mp3 in Resources */,
@@ -512,6 +541,7 @@
 				EBC1BC8B18A7D7A8006DF94A /* PPMainAirplane.m in Sources */,
 				EB97D7881891BE390039AC04 /* SKSpriteNode+Additions.m in Sources */,
 				EB1D120718CC3D9200B4AC28 /* PPPositionIndicator.m in Sources */,
+				EBB4D3AE18DCAE2C0085051A /* PPMenuScene.m in Sources */,
 				EBC1BC9418A7D7EE006DF94A /* PPBomber.m in Sources */,
 				EB7D82F118A69D45006EC594 /* PPConstants.m in Sources */,
 				EB1D121418CE6F0D00B4AC28 /* PPSlider.m in Sources */,
@@ -522,6 +552,7 @@
 				EB1BC09A187F48970056D80D /* PPMyScene.m in Sources */,
 				EB97D78C1891C91C0039AC04 /* PPSpriteNode.m in Sources */,
 				EBC1BC8E18A7D7CA006DF94A /* PPMissile.m in Sources */,
+				EBB4D3AB18DB865F0085051A /* SKEmitterNode+Utilities.m in Sources */,
 				EB13C5A318BD59C3003587FD /* PPMainBase.m in Sources */,
 				EB97D78F1891D92F0039AC04 /* PPMath.m in Sources */,
 				EBC1BC9118A7D7E0006DF94A /* PPHunterAirplane.m in Sources */,
@@ -655,10 +686,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PaperPlane Fighting/PaperPlane Fighting-Prefix.pch";
 				INFOPLIST_FILE = "PaperPlane Fighting/PaperPlane Fighting-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -669,10 +703,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PaperPlane Fighting/PaperPlane Fighting-Prefix.pch";
 				INFOPLIST_FILE = "PaperPlane Fighting/PaperPlane Fighting-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};

@@ -31,6 +31,8 @@
 @synthesize arrayOfEnemyHunterAirplanes     = _arrayOfEnemyHunterAirplanes;
 @synthesize arrayOfCurrentMissilesOnScreen  = _arrayOfCurrentMissilesOnScreen;
 @synthesize positionIndicator               = _positionIndicator;
+@synthesize gameIsPaused                    = _gameIsPaused;
+@synthesize pauseButton                     = _pauseButton;
 
 
 -(id)initWithSize:(CGSize)size {    
@@ -157,12 +159,37 @@
         [launchMissile setTouchUpInsideTarget:self action:@selector(launchMissileFromMainAicraft)];
         launchMissile.zPosition = 1000;
         [self addChild:launchMissile];
+        
+        _pauseButton = [[SKButtonNode alloc] initWithImageNamedNormal:@"play.png" selected:@"play.png"];
+        [_pauseButton setPosition:CGPointMake(self.size.width - 100, self.size.height - 100)];
+        [_pauseButton.title setFontName:@"Chalkduster"];
+        [_pauseButton.title setFontSize:10.0];
+        [_pauseButton.title setText:@""];
+        [_pauseButton setTouchUpInsideTarget:self action:@selector(pauseGame)];
+        _pauseButton.zPosition = 1000;
+        [self addChild:_pauseButton];
+        
+        _gameIsPaused = YES;
     }
     return self;
 }
 
 - (void)restartScene {
+    
+    _gameIsPaused = YES;
+    
+    [_userAirplane stopFiring];
+    _userAirplane.health = kPPUserAirplaneHealth;
     _userAirplane.position = CGPointMake(self.size.width / 2, self.size.height / 2);
+    for (PPSpriteNode *item in _arrayOfCurrentMissilesOnScreen) {
+        [item removeFromParent];
+    }
+    for (PPSpriteNode *item in _arrayOfEnemyBombers) {
+        [item removeFromParent];
+    }
+    for (PPSpriteNode *item in _arrayOfEnemyHunterAirplanes) {
+        [item removeFromParent];
+    }
 }
 
 -(void)update:(CFTimeInterval)currentTime {
@@ -173,6 +200,10 @@
         _deltaTime = 0;
     }
     _lastUpdateTime = currentTime;
+    
+    if (_gameIsPaused) {
+        return;
+    }
         
     
     [_userAirplane updateOrientationVector];
@@ -200,9 +231,6 @@
         [bomber setTargetPoint:_userAirplane.position];
         [bomber updateOrientationVector];
     }
-    
-    _smokeTrail.position = CGPointMake(_userAirplane.position.x ,_userAirplane.position.y-(_userAirplane.size.height/2));
-    
 }
 
 - (void)didBeginContact:(SKPhysicsContact *)contact
@@ -246,7 +274,6 @@
         [_userAirplane setHealth:_userAirplane.health - 50];
         
         if ([_userAirplane health] <= 0) {
-            _userAirplane.health = 100;
             [self restartScene];
         }
     }
@@ -512,6 +539,18 @@
     
     [enemyBomberAirplane updateOrientationVector];
     [_arrayOfEnemyBombers addObject:enemyBomberAirplane];
+}
+
+- (void)pauseGame {
+    _gameIsPaused = !_gameIsPaused;
+    
+    if (!_gameIsPaused) {
+        _pauseButton.normalTexture = [SKTexture textureWithImageNamed:@"pause.png"];
+        _pauseButton.selectedTexture = [SKTexture textureWithImageNamed:@"pause.png"];
+    } else {
+        _pauseButton.normalTexture = [SKTexture textureWithImageNamed:@"play.png"];
+        _pauseButton.selectedTexture = [SKTexture textureWithImageNamed:@"play.png"];
+    }
 }
 
 - (void)launchMissileFromMainAicraft {

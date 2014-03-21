@@ -13,6 +13,7 @@
 @class PPMainBase;
 @class PPHunterAirplane;
 @class PPPositionIndicator;
+@class SKButtonNode;
 
 @interface PPMyScene : SKScene {
     
@@ -32,8 +33,12 @@
     NSMutableArray *_arrayOfEnemyBombers;
     
     PPPositionIndicator *_positionIndicator;
+    BOOL _gameIsPaused;
+    SKButtonNode *_pauseButton;
 }
 
+@property (nonatomic, retain)SKButtonNode* pauseButton;
+@property (nonatomic, assign) BOOL gameIsPaused;
 @property (nonatomic, retain) PPPositionIndicator *positionIndicator;
 //@property (nonatomic, retain) PPHunterAirplane *hunterAirplane;
 @property (nonatomic, retain) PPMainAirplane *userAirplane;
@@ -46,7 +51,6 @@
 @property (nonatomic, retain) NSMutableArray *arrayOfCurrentMissilesOnScreen;
 @property (nonatomic, retain) NSMutableArray *arrayOfEnemyHunterAirplanes;
 @property (nonatomic, retain) NSMutableArray *arrayOfEnemyBombers;
-@property SKEmitterNode *smokeTrail;
 @property NSMutableArray *cloudsTextures;
 @property NSMutableArray *explosionTextures;
 

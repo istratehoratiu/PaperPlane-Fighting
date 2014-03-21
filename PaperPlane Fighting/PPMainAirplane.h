@@ -11,6 +11,9 @@
 @interface PPMainAirplane : PPSpriteNode {
     // A pointer to the airplane that the missile is targeting.
     PPSpriteNode *_targetAirplane;
+    
+    SKEmitterNode *_smokeEmitter;
+    SKEmitterNode *_fireEmitter;
 }
 
 @property (nonatomic, strong) PPSpriteNode *targetAirplane;

@@ -8,6 +8,7 @@
 
 #import "PPMainAirplane.h"
 #import "SKSpriteNode+Additions.h"
+#import "SKEmitterNode+Utilities.h"
 #import "PPMath.h"
 #import "PPConstants.h"
 #import "PPMissile.h"
@@ -86,6 +87,19 @@
         self.zPosition = 1;
         
         _shadow = [[SKSpriteNode alloc] initWithImageNamed:@"PLANE 8 SHADOW.png"];
+        
+        _smokeEmitter = [SKEmitterNode emitterNamed:@"DamageSmoke"];
+        _smokeEmitter.position = CGPointMake(0, 30);
+        [_smokeEmitter setParticleAlpha:1.0];
+        [_smokeEmitter setParticleColor:[SKColor whiteColor]];
+        _smokeEmitter.particleSpeed = self.zRotation;
+        
+        _fireEmitter = [SKEmitterNode emitterNamed:@"Fire"];
+        _fireEmitter.position = CGPointMake(0, 15);
+        [_fireEmitter setParticleAlpha:1.0];
+        
+        _fireEmitter.particleSpeed = self.zRotation;
+        
     }
     
     return self;
@@ -191,18 +205,46 @@
     
     _shadow.position = CGPointMake(self.position.x + 10, self.position.y + 10);
     
-    if (!_smokeTrail.parent) {
-        
-        NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"trail" ofType:@"sks"];
-        _smokeTrail = [NSKeyedUnarchiver unarchiveObjectWithFile:smokePath];
-        _smokeTrail.position = CGPointMake(0.0, 0.0);
-        _smokeTrail.targetNode = self.parent;
-        
-        [self.parent addChild:_smokeTrail];
+//    if (!_smokeTrail.parent && _health < kPPUserAirplaneHealth) {
+//        
+//        NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"trail" ofType:@"sks"];
+//        _smokeTrail = [NSKeyedUnarchiver unarchiveObjectWithFile:smokePath];
+//        _smokeTrail.position = CGPointMake(0.0, 0.0);
+//        _smokeTrail.targetNode = self.parent;
+//        
+//        [self.parent addChild:_smokeTrail];
+//    } else if (_smokeTrail.parent && _health == kPPUserAirplaneHealth) {
+//        [_smokeTrail removeFromParent];
+//    }
+
+    if (!_smokeEmitter.parent) {
+        [self.parent addChild:_smokeEmitter];
+        _smokeEmitter.targetNode = self.parent;
     }
     
-    _smokeTrail.position = self.position;
+    _smokeEmitter.position = self.position;
     
+    if (!_fireEmitter.parent) {
+        [self.parent addChild:_fireEmitter];
+        _fireEmitter.targetNode = self.parent;
+    }
+    
+    _fireEmitter.position = self.position;
+    _smokeEmitter.particleSpeed = self.zRotation;
+    _fireEmitter.particleSpeed = self.zRotation;
+    
+    [self updateEffectsFromHealth];
+    
+//    _smokeTrail.position = self.position;
+//    _smokeTrail.particleColorSequence = nil;
+//    _smokeTrail.particleColorBlendFactor = 1.0;
+//    
+//    if (_health < kPPUserAirplaneHealth * 0.3) {
+//        _smokeTrail.particleColor = [SKColor colorWithRed:1 green:0.0 blue:0.0 alpha:1.0];
+//    } else if (_health < kPPUserAirplaneHealth * 0.6) {
+//        _smokeTrail.particleColor = [SKColor colorWithRed:.9 green:.9 blue:.9 alpha:1.0];
+//    }
+//    
     CGPoint destinationPoint = [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
     
     CGPoint offset = skPointsSubtract(destinationPoint, self.position);
@@ -242,6 +284,19 @@
 
 - (CGPoint)currentDirection {
     return [self.parent convertPoint:CGPointMake(self.size.width, 0) fromNode:self];
+}
+
+-(void)updateEffectsFromHealth {
+    //[_smokeEmitter setParticleAlpha:kPPUserAirplaneHealth / (kPPUserAirplaneHealth - self.health)];
+    //[_smokeEmitter setParticleColor:[SKColor colorWithWhite:kPPUserAirplaneHealth / (kPPUserAirplaneHealth - self.health) alpha:1.0]];
+    
+    if(self.health < kPPUserAirplaneHealth) {
+        [_smokeEmitter setParticleAlpha:1.0];
+    }
+    
+    if(self.health < kPPUserAirplaneHealth * 0.5) {
+        [_fireEmitter setParticleAlpha:1.0];
+    }
 }
 
 @end
