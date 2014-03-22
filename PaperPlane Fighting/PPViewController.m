@@ -8,6 +8,8 @@
 
 #import "PPViewController.h"
 #import "PPMyScene.h"
+#import "PPMenuScene.h"
+
 
 @implementation PPViewController
 
@@ -22,7 +24,7 @@
         skView.showsNodeCount = YES;
         
         // Create and configure the scene.
-        SKScene * scene = [PPMyScene sceneWithSize:skView.bounds.size];
+        SKScene * scene = [PPMenuScene sceneWithSize:skView.bounds.size];
         scene.scaleMode = SKSceneScaleModeAspectFill;
         
         // Present the scene.
