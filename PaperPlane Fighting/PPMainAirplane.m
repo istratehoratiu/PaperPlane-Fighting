@@ -217,17 +217,7 @@
 //        [_smokeTrail removeFromParent];
 //    }
 
-    if (!_smokeEmitter.parent) {
-        [self.parent addChild:_smokeEmitter];
-        _smokeEmitter.targetNode = self.parent;
-    }
-    
     _smokeEmitter.position = self.position;
-    
-    if (!_fireEmitter.parent) {
-        [self.parent addChild:_fireEmitter];
-        _fireEmitter.targetNode = self.parent;
-    }
     
     _fireEmitter.position = self.position;
     _smokeEmitter.particleSpeed = self.zRotation;
@@ -291,10 +281,20 @@
     //[_smokeEmitter setParticleColor:[SKColor colorWithWhite:kPPUserAirplaneHealth / (kPPUserAirplaneHealth - self.health) alpha:1.0]];
     
     if(self.health < kPPUserAirplaneHealth) {
+        if (!_smokeEmitter.parent) {
+            [self.parent addChild:_smokeEmitter];
+            _smokeEmitter.targetNode = self.parent;
+        }
+        
         [_smokeEmitter setParticleAlpha:1.0];
     }
     
     if(self.health < kPPUserAirplaneHealth * 0.5) {
+        if (!_fireEmitter.parent) {
+            [self.parent addChild:_fireEmitter];
+            _fireEmitter.targetNode = self.parent;
+        }
+        
         [_fireEmitter setParticleAlpha:1.0];
     }
 }

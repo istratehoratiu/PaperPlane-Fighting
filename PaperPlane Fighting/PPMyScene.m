@@ -151,6 +151,15 @@
         addBomber.zPosition = 1000;
         [self addChild:addBomber];
         
+        SKButtonNode *addStuka = [[SKButtonNode alloc] initWithImageNamedNormal:@"plus.png" selected:@"plus.png"];
+        [addStuka setPosition:CGPointMake(400, 100)];
+        [addStuka.title setFontName:@"Chalkduster"];
+        [addStuka.title setFontSize:10.0];
+        [addStuka.title setText:@"Stuka"];
+        [addStuka setTouchUpInsideTarget:self action:@selector(addEnemyStukaAtRandomLocation)];
+        addStuka.zPosition = 1000;
+        [self addChild:addStuka];
+        
         SKButtonNode *launchMissile = [[SKButtonNode alloc] initWithImageNamedNormal:@"glossy_red_button.png" selected:@"glossy_red_button.png"];
         [launchMissile setPosition:CGPointMake(100, 500)];
         [launchMissile.title setFontName:@"Chalkduster"];
@@ -517,6 +526,28 @@
     
     [enemyAirplane updateOrientationVector];
     [_arrayOfEnemyHunterAirplanes addObject:enemyAirplane];
+}
+
+- (void)addEnemyStukaAtRandomLocation {
+    PPBomber *enemyBomberAirplane = [[PPBomber alloc] initBomber];
+    
+    enemyBomberAirplane.position = CGPointMake(getRandomNumberBetween(0, self.size.width), getRandomNumberBetween(0, self.size.height));
+    enemyBomberAirplane.scale = 0.25;
+    enemyBomberAirplane.mainAirplane = _userAirplane;
+    enemyBomberAirplane.mainBase = _mainBase;
+    
+    enemyBomberAirplane.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:enemyBomberAirplane.size.width * 0.5]; // 1
+    enemyBomberAirplane.physicsBody.dynamic = YES; // 2
+    enemyBomberAirplane.physicsBody.categoryBitMask = enemyBomberCategory; // 3
+    enemyBomberAirplane.physicsBody.contactTestBitMask = mainBaseCategory | projectileCategory | userAirplaneFiringRangeCategory | missileCategory; // 4
+    enemyBomberAirplane.physicsBody.collisionBitMask = 0; // 5
+    
+    [self addChild:enemyBomberAirplane];
+    
+    //[enemyBomberAirplane startLockOnAnimation];
+    
+    [enemyBomberAirplane updateOrientationVector];
+    [_arrayOfEnemyBombers addObject:enemyBomberAirplane];
 }
 
 - (void)addEnemyBomberAtRandomLocation {

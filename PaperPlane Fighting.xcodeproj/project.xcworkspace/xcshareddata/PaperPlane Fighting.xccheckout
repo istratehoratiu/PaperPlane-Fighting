@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A2C1B467-2577-46B0-B8B1-DDD4203D290F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PaperPlane Fighting</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BD1E094B-D811-4B7E-9DA0-4E71D095AD33</key>
+		<string>https://github.com/istratehoratiu/PaperPlane-Fighting.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PaperPlane Fighting.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BD1E094B-D811-4B7E-9DA0-4E71D095AD33</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/istratehoratiu/PaperPlane-Fighting.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BD1E094B-D811-4B7E-9DA0-4E71D095AD33</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BD1E094B-D811-4B7E-9DA0-4E71D095AD33</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PaperPlane Fighting</string>
+		</dict>
+	</array>
+</dict>
+</plist>
